@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>符文之地 · 英雄联盟宇宙档案</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Noto+Serif+SC:wght@400;600;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#010a13;--bg2:#091428;--panel:#0a1428;--gold:#c8aa6e;--gold2:#785a28;--gold3:#f0e6d2;--gold4:#463714;
+  --teal:#0ac8b9;--teal2:#0397ab;--blue:#005a82;--text:#a09b8c;--red:#c24b46;
+  --serif:"Cinzel","Noto Serif SC","Songti SC","SimSun",Georgia,serif;
+  --sans:"Noto Sans SC","Microsoft YaHei","PingFang SC",sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);overflow:hidden}
+body{background:
+  radial-gradient(1200px 500px at 50% -10%,rgba(10,200,185,.12),transparent 70%),
+  radial-gradient(900px 600px at 100% 100%,rgba(0,90,130,.18),transparent 70%),var(--bg)}
+button{font-family:inherit;cursor:pointer}
+img{display:block}
+::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:linear-gradient(#785a28,#463714);border-radius:4px}::-webkit-scrollbar-track{background:#050f1c}
+h1,h2,h3,h4{font-family:var(--serif);color:var(--gold3);margin:0;font-weight:700;letter-spacing:.06em}
+.gold-text{background:linear-gradient(#f0e6d2,#c8aa6e 60%,#a07c3c);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ===== 加载页 ===== */
+#loading{position:fixed;inset:0;z-index:100;background:#010a13;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .9s,visibility .9s;overflow:hidden;user-select:none}
+#loading.hide{opacity:0;visibility:hidden}
+#loading .lbg{position:absolute;inset:0;background-size:cover;background-position:center 20%;opacity:.0;filter:saturate(.8) brightness(.55);transition:opacity 1.6s;transform:scale(1.06);animation:drift 24s ease-in-out infinite alternate}
+#loading .lbg.on{opacity:.9}
+#loading::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(1,10,19,.15) 0%,rgba(1,10,19,.78) 70%,#010a13 100%)}
+@keyframes drift{to{transform:scale(1.14) translate(-1.5%,1%)}}
+.lbox{position:relative;z-index:2;width:min(640px,86vw);text-align:center}
+.lbox .logo{font-family:var(--serif);font-size:clamp(28px,6vw,54px);font-weight:900;letter-spacing:.18em;margin-bottom:6px}
+.lbox .sub{font-size:13px;letter-spacing:.5em;color:var(--gold);margin-bottom:46px;text-indent:.5em}
+.ebar{position:relative;height:22px;padding:4px;background:#050f1c;border:1px solid var(--gold2);clip-path:polygon(14px 0,calc(100% - 14px) 0,100% 50%,calc(100% - 14px) 100%,14px 100%,0 50%);box-shadow:0 0 30px rgba(200,170,110,.25)}
+.ebar .fill{position:relative;height:100%;width:0%;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 50%,calc(100% - 8px) 100%,0 100%);
+  background:repeating-linear-gradient(115deg,rgba(255,255,255,.0) 0 14px,rgba(255,255,255,.28) 14px 22px),linear-gradient(90deg,#785a28,#c8aa6e 50%,#f5e3b0);
+  background-size:60px 100%,100% 100%;animation:roll 1s linear infinite;transition:width .25s}
+@keyframes roll{to{background-position:60px 0,0 0}}
+.ebar .fill::after{content:"";position:absolute;right:-6px;top:50%;width:30px;height:30px;transform:translateY(-50%);background:radial-gradient(circle,#fff 0%,rgba(255,230,160,.9) 25%,transparent 70%);filter:blur(2px);animation:pulse .7s ease-in-out infinite alternate}
+@keyframes pulse{to{opacity:.55;transform:translateY(-50%) scale(1.5)}}
+.lpct{margin-top:16px;font-family:var(--serif);color:var(--gold);letter-spacing:.3em;font-size:13px}
+.lenter{margin-top:34px;height:30px;opacity:0;transition:opacity .8s;color:var(--gold3);font-size:15px;letter-spacing:.5em;text-indent:.5em;font-family:var(--serif)}
+.lenter.on{opacity:1;animation:blink 1.6s ease-in-out infinite}
+@keyframes blink{50%{opacity:.35}}
+#loading.ready{cursor:pointer}
+
+/* ===== 顶栏 ===== */
+#topbar{position:fixed;left:0;right:0;top:0;height:58px;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:0 18px;
+  background:linear-gradient(#010a13,rgba(1,10,19,.85));border-bottom:1px solid var(--gold4)}
+#topbar::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:linear-gradient(90deg,transparent,var(--gold) 30%,var(--gold) 70%,transparent);opacity:.6}
+.brand{display:flex;align-items:center;gap:10px;cursor:pointer}
+.brand .L{width:34px;height:34px;border:1px solid var(--gold);display:grid;place-items:center;font-family:var(--serif);font-weight:900;color:var(--gold);transform:rotate(45deg);margin-right:6px}
+.brand .L b{transform:rotate(-45deg);font-size:17px}
+.brand small{display:block;font-size:10px;letter-spacing:.25em;color:var(--gold);line-height:1.2}
+.brand span{font-family:var(--serif);color:var(--gold3);letter-spacing:.12em;font-size:15px}
+nav.tabs{display:flex;gap:6px}
+nav.tabs button{background:none;border:0;color:#a09b8c;font-family:var(--serif);letter-spacing:.14em;font-size:13px;padding:10px 16px;position:relative;font-weight:700}
+nav.tabs button:hover{color:var(--gold3)}
+nav.tabs button.on{color:var(--gold3)}
+nav.tabs button.on::after{content:"";position:absolute;left:14px;right:14px;bottom:2px;height:3px;background:radial-gradient(ellipse at top,#f0e6d2,transparent 70%);}
+nav.tabs button.on::before{content:"";position:absolute;left:50%;bottom:-8px;width:10px;height:10px;transform:translateX(-50%) rotate(45deg);background:var(--bg);border-right:1px solid var(--gold);border-bottom:1px solid var(--gold)}
+.mini{display:flex;align-items:center;gap:8px;font-size:12px}
+.mini .ico{width:34px;height:34px;border:1px solid var(--gold2);background:#050f1c;color:var(--gold);font-size:14px}
+.mini .ico:hover{border-color:var(--gold);color:var(--gold3)}
+.mini .nm{max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--gold3)}
+
+/* ===== 视图 ===== */
+main{position:fixed;inset:58px 0 0 0}
+.view{position:absolute;inset:0;display:none;overflow:auto}
+.view.on{display:block;animation:fadein .5s}
+@keyframes fadein{from{opacity:0;transform:translateY(8px)}}
+.wrap{max-width:1500px;margin:0 auto;padding:22px 24px 50px}
+
+/* 主页 */
+#view-home{overflow:hidden}
+.home{height:100%;display:grid;grid-template-columns:minmax(150px,1fr) minmax(0,3.3fr) minmax(150px,1fr);gap:14px;padding:14px 18px;align-items:stretch}
+.side{display:flex;flex-direction:column;gap:14px;justify-content:center;align-items:center;min-height:0}
+.tile{position:relative;width:min(100%,calc((100vh - 58px - 28px - 14px)/2));aspect-ratio:1;border:1px solid var(--gold2);background:#050f1c;overflow:hidden;cursor:pointer;padding:0;color:inherit;text-align:left;transition:.35s}
+.tile::before{content:"";position:absolute;inset:4px;border:1px solid rgba(200,170,110,.35);z-index:3;pointer-events:none;transition:.35s}
+.tile .bgi{position:absolute;inset:0;background-size:cover;background-position:center 18%;filter:saturate(.85) brightness(.62);transition:.6s}
+.tile:hover{border-color:var(--gold);box-shadow:0 0 28px rgba(200,170,110,.35)}
+.tile:hover .bgi{transform:scale(1.08);filter:saturate(1.1) brightness(.85)}
+.tile:hover::before{inset:7px;border-color:var(--gold)}
+.tile .num{position:absolute;top:10px;left:14px;font-family:var(--serif);font-size:44px;font-weight:900;color:rgba(240,230,210,.28);z-index:2;line-height:1}
+.tile .cap{position:absolute;left:0;right:0;bottom:0;padding:34px 16px 16px;z-index:2;background:linear-gradient(transparent,rgba(1,10,19,.95))}
+.tile .cap h3{font-size:clamp(15px,1.6vw,22px)}
+.tile .cap p{margin:4px 0 0;font-size:12px;color:var(--gold);letter-spacing:.14em;font-family:var(--serif)}
+.tile.bgm{cursor:default}
+.bgm .cover{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(.5) saturate(.9);transition:background-image .6s}
+.bgm .ctl{position:absolute;left:0;right:0;bottom:0;z-index:4;padding:10px 14px 14px;background:linear-gradient(transparent,rgba(1,10,19,.96) 40%)}
+.bgm .ttl{font-family:var(--serif);color:var(--gold3);font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bgm .art{font-size:11px;color:var(--gold);margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bgm .btns{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.bgm .btns button,.mini button{background:#050f1c;border:1px solid var(--gold2);color:var(--gold);width:32px;height:32px;display:grid;place-items:center;font-size:13px;padding:0}
+.bgm .btns button:hover{border-color:var(--gold);color:var(--gold3)}
+.bgm .btns .pp{width:42px;height:42px;border-radius:50%;border-color:var(--gold);font-size:16px}
+.bgm .prog{height:3px;background:#1e2328;margin:8px 0 2px;cursor:pointer;position:relative}
+.bgm .prog i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--gold2),var(--gold3));width:0}
+.bgm .disc{position:absolute;top:12px;right:12px;width:25%;aspect-ratio:1;border-radius:50%;border:2px solid var(--gold);background-size:cover;z-index:4;animation:spin 14s linear infinite;animation-play-state:paused;box-shadow:0 0 18px #000}
+.bgm.playing .disc{animation-play-state:running}
+.bgm .disc::after{content:"";position:absolute;inset:40%;border-radius:50%;background:var(--bg);border:1px solid var(--gold)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.bgm .list{position:absolute;inset:0;z-index:6;background:rgba(1,10,19,.96);overflow:auto;padding:10px;display:none}
+.bgm .list.on{display:block}
+.bgm .list div{display:flex;gap:8px;align-items:center;padding:6px;cursor:pointer;border-bottom:1px solid #1e2328;font-size:12px;color:var(--text)}
+.bgm .list div:hover,.bgm .list div.cur{background:rgba(200,170,110,.12);color:var(--gold3)}
+.bgm .list img{width:32px;height:32px;object-fit:cover}
+.bgm .list b{display:block;font-weight:500}.bgm .list small{color:var(--gold);font-size:10px}
+
+/* 世界地图 */
+.mapbox{position:relative;min-height:0;border:1px solid var(--gold);background:#030c16;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,.6),inset 0 0 80px rgba(0,0,0,.7)}
+.mapbox::before,.mapbox::after{content:"";position:absolute;z-index:8;pointer-events:none;width:64px;height:64px;border:2px solid var(--gold)}
+.mapbox::before{left:6px;top:6px;border-right:0;border-bottom:0}
+.mapbox::after{right:6px;bottom:6px;border-left:0;border-top:0}
+.maphead{position:absolute;left:0;right:0;top:0;z-index:7;padding:14px 22px;pointer-events:none;background:linear-gradient(rgba(1,10,19,.9),transparent)}
+.maphead h2{font-size:clamp(16px,2vw,24px)}.maphead p{margin:4px 0 0;font-size:11px;color:var(--gold);letter-spacing:.3em;font-family:var(--serif)}
+#mapStage{position:absolute;left:0;top:0;transform-origin:0 0;touch-action:none;will-change:transform;background:#0b1c26}
+#mapStage .mapimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;user-select:none;-webkit-user-drag:none;pointer-events:none}
+#mapStage .mapfallback{position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,#10303a,#050f1c 70%)}
+#mapStage .glow{position:absolute;width:11%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;opacity:.5;mix-blend-mode:screen}
+.pin{position:absolute;transform:translate(-50%,-50%) scale(calc(1 / var(--s,1)));transform-origin:center;border:0;background:none;padding:0;z-index:5;display:flex;flex-direction:column;align-items:center}
+.pin .face{width:46px;height:46px;border-radius:50%;border:2px solid var(--c,#c8aa6e);background:#050f1c center/cover;box-shadow:0 0 0 2px #010a13,0 0 16px var(--c,#c8aa6e),0 4px 12px #000;transition:.25s;position:relative}
+.pin .face::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:1px dashed var(--c,#c8aa6e);opacity:.6;animation:spin 16s linear infinite}
+.pin .lab{margin-top:6px;white-space:nowrap;font-family:var(--serif);font-size:13px;font-weight:700;color:var(--gold3);text-shadow:0 0 6px #000,0 0 3px #000,0 1px 2px #000;background:rgba(1,10,19,.55);padding:1px 8px;border:1px solid rgba(200,170,110,.3)}
+.pin:hover .face,.pin.on .face{transform:scale(1.2);box-shadow:0 0 0 2px #010a13,0 0 26px var(--c),0 4px 12px #000}
+.pin:hover,.pin.on{z-index:9}
+.mapctl{position:absolute;left:16px;bottom:16px;z-index:8;display:flex;flex-direction:column;gap:6px}
+.mapctl button{width:38px;height:38px;background:rgba(5,15,28,.9);border:1px solid var(--gold2);color:var(--gold);font-size:20px;padding:0}
+.mapctl button:hover{border-color:var(--gold);color:var(--gold3)}
+.maphint{position:absolute;right:20px;bottom:14px;z-index:7;font-size:11px;color:#8a8574;pointer-events:none;letter-spacing:.1em}
+.rpanel{position:absolute;right:0;top:0;bottom:0;width:min(350px,92%);z-index:10;background:linear-gradient(90deg,rgba(1,10,19,.0),rgba(1,10,19,.97) 14%);padding:22px 20px 20px 34px;overflow:auto;transform:translateX(105%);transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.rpanel.on{transform:none}
+.rpanel .x{position:absolute;right:12px;top:12px;width:32px;height:32px;background:#050f1c;border:1px solid var(--gold2);color:var(--gold);font-size:16px;padding:0}
+.rpanel .en{font-family:var(--serif);font-size:11px;letter-spacing:.35em;color:var(--c,var(--gold));margin-top:4px}
+.rpanel h2{font-size:28px;margin-top:6px}
+.rpanel .mt{font-style:italic;color:var(--gold);font-size:13px;margin:8px 0 12px;font-family:var(--serif)}
+.rpanel p{font-size:13px;line-height:1.85;margin:0 0 12px}
+.rpanel h4{font-size:13px;color:var(--gold);letter-spacing:.2em;margin:14px 0 8px;border-bottom:1px solid var(--gold4);padding-bottom:5px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:3px 10px;border:1px solid var(--gold2);color:var(--gold);font-size:12px;background:rgba(200,170,110,.06)}
+.chrow{display:grid;grid-template-columns:repeat(auto-fill,minmax(54px,1fr));gap:8px}
+.chav{cursor:pointer;text-align:center;font-size:11px;color:var(--text);background:none;border:0;padding:0}
+.chav img{width:100%;aspect-ratio:1;border:1px solid var(--gold2);object-fit:cover;transition:.2s;background:#050f1c}
+.chav:hover img{border-color:var(--gold3);transform:translateY(-2px)}
+.chav span{display:block;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.btn{display:inline-block;padding:11px 24px;background:linear-gradient(#1e2328,#0a1428);border:1px solid var(--gold2);color:var(--gold3);font-family:var(--serif);letter-spacing:.14em;font-size:13px;font-weight:700;position:relative;transition:.25s;clip-path:polygon(10px 0,calc(100% - 10px) 0,100% 50%,calc(100% - 10px) 100%,10px 100%,0 50%)}
+.btn:hover{background:linear-gradient(#3a3020,#1b1608);border-color:var(--gold);color:#fff}
+.btn.gold{background:linear-gradient(#c8aa6e,#785a28);color:#1a1205;border-color:var(--gold3)}
+.btn.gold:hover{background:linear-gradient(#f0e6d2,#c8aa6e);color:#000}
+.btn[disabled]{opacity:.4;pointer-events:none;filter:grayscale(1)}
+.btn.sm{padding:7px 16px;font-size:12px}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+
+/* 通用页头 */
+.vhead{text-align:center;padding:12px 0 26px;position:relative}
+.vhead .big{font-family:var(--serif);font-size:clamp(40px,7vw,86px);font-weight:900;color:rgba(240,230,210,.14);line-height:1}
+.vhead h1{font-size:clamp(22px,3.5vw,38px);margin-top:-22px;position:relative}
+.vhead p{color:var(--gold);letter-spacing:.3em;font-size:12px;margin:8px 0 0;font-family:var(--serif)}
+.vhead::after{content:"";display:block;width:min(560px,80%);height:1px;margin:20px auto 0;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+
+/* 时间线 */
+.tl{display:grid;grid-template-columns:minmax(300px,420px) 1fr;gap:26px;align-items:start}
+.tlrail{position:relative;padding-left:34px;max-height:calc(100vh - 290px);overflow:auto;padding-right:10px}
+.tlrail::before{content:"";position:absolute;left:11px;top:0;bottom:0;width:2px;background:linear-gradient(var(--gold),var(--gold2) 60%,transparent)}
+.node{position:relative;margin-bottom:14px;padding:12px 14px;border:1px solid var(--gold4);background:rgba(9,20,40,.7);cursor:pointer;transition:.25s;display:block;width:100%;text-align:left;color:inherit}
+.node::before{content:"";position:absolute;left:-30px;top:20px;width:12px;height:12px;background:var(--bg);border:2px solid var(--gold2);transform:rotate(45deg);transition:.25s}
+.node:hover{border-color:var(--gold2)}
+.node.on{border-color:var(--gold);background:rgba(200,170,110,.1);box-shadow:0 0 22px rgba(200,170,110,.2)}
+.node.on::before{background:var(--gold);box-shadow:0 0 14px var(--gold)}
+.node .era{font-size:11px;color:var(--gold);letter-spacing:.25em;font-family:var(--serif)}
+.node h4{font-size:16px;margin-top:3px}
+.node .av{display:flex;margin-top:8px}
+.node .av img{width:26px;height:26px;border-radius:50%;border:1px solid var(--gold2);margin-right:-6px;background:#050f1c}
+.tdetail{position:sticky;top:0;border:1px solid var(--gold2);background:#050f1c;overflow:hidden;min-height:460px}
+.tdetail .hero{height:300px;background-size:cover;background-position:center 20%;position:relative}
+.tdetail .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 30%,#050f1c)}
+.tdetail .body{padding:0 26px 26px;margin-top:-80px;position:relative;z-index:2}
+.tdetail .era{font-size:12px;color:var(--gold);letter-spacing:.3em;font-family:var(--serif)}
+.tdetail h2{font-size:30px;margin:6px 0 12px}
+.tdetail p{font-size:14px;line-height:1.95;margin:0 0 14px;color:#b8b3a4}
+.dest{margin-top:20px;border-top:1px solid var(--gold4);padding-top:16px}
+.dest h4{font-size:13px;color:var(--gold);letter-spacing:.25em;margin-bottom:10px}
+.rchip{padding:6px 12px;border:1px solid var(--gold4);background:rgba(9,20,40,.8);color:var(--text);font-size:13px;display:flex;gap:6px;align-items:center;transition:.2s}
+.rchip i{width:9px;height:9px;transform:rotate(45deg);background:var(--c)}
+.rchip:hover{border-color:var(--gold2);color:var(--gold3)}
+.rchip.on{border-color:var(--gold);color:var(--gold3);background:rgba(200,170,110,.14);box-shadow:0 0 12px rgba(200,170,110,.3)}
+.note{font-size:11px;color:#6d6a60;margin-top:12px;line-height:1.7}
+
+/* 图鉴 */
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;align-items:center;margin-bottom:14px}
+.rtabs{display:flex;gap:2px;flex-wrap:wrap}
+.rtabs button{background:none;border:0;border-bottom:2px solid transparent;color:#a09b8c;padding:8px 12px;font-size:13px;font-family:var(--serif);font-weight:700}
+.rtabs button small{opacity:.6;margin-left:4px;font-family:var(--sans);font-weight:400}
+.rtabs button:hover{color:var(--gold3)}
+.rtabs button.on{color:var(--gold3);border-color:var(--gold)}
+.inp{background:#050f1c;border:1px solid var(--gold2);color:var(--gold3);padding:9px 12px;font-size:14px;font-family:var(--sans);outline:none;width:100%}
+.inp:focus{border-color:var(--gold);box-shadow:0 0 12px rgba(200,170,110,.25)}
+textarea.inp{resize:vertical;min-height:90px;line-height:1.7}
+select.inp{appearance:auto}
+.sel-sm{width:auto;min-width:130px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:14px}
+.card{position:relative;aspect-ratio:308/560;border:1px solid var(--gold4);background:#050f1c;cursor:pointer;overflow:hidden;padding:0;text-align:left;color:inherit;transition:.3s}
+.card img.im{width:100%;height:100%;object-fit:cover;transition:.5s;filter:saturate(.9)}
+.card:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 10px 30px rgba(0,0,0,.6),0 0 24px rgba(200,170,110,.3)}
+.card:hover img.im{transform:scale(1.07);filter:saturate(1.15)}
+.card .cap{position:absolute;left:0;right:0;bottom:0;padding:40px 10px 10px;background:linear-gradient(transparent,rgba(1,10,19,.96))}
+.card .cap b{display:block;font-family:var(--serif);color:var(--gold3);font-size:15px}
+.card .cap span{font-size:11px;color:var(--gold)}
+.card .tier{position:absolute;top:8px;right:8px;font-family:var(--serif);font-weight:900;font-size:12px;padding:2px 7px;background:rgba(1,10,19,.85);border:1px solid var(--gold2);color:var(--gold3)}
+.card .rg{position:absolute;top:8px;left:8px;font-size:11px;padding:2px 7px;background:rgba(1,10,19,.85);border-left:3px solid var(--c);color:var(--gold3)}
+.tSS{color:#ff6b5e!important;border-color:#c24b46!important}.tS{color:#ffd36b!important;border-color:#c8aa6e!important}.tA{color:#c89bff!important}.tB{color:#6ec1ff!important}.tC{color:#a0a0a0!important}
+.empty{padding:60px;text-align:center;color:#6d6a60}
+
+/* 弹层 */
+#modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;background:rgba(1,6,12,.82);backdrop-filter:blur(5px);padding:20px}
+#modal.on{display:flex;animation:fadein .3s}
+.mbox{position:relative;width:min(1180px,100%);max-height:100%;overflow:auto;background:linear-gradient(#0a1428,#050b17);border:1px solid var(--gold);box-shadow:0 0 70px rgba(0,0,0,.9),0 0 30px rgba(200,170,110,.2)}
+.mbox .close{position:absolute;right:12px;top:12px;z-index:10;width:38px;height:38px;background:rgba(5,15,28,.9);border:1px solid var(--gold);color:var(--gold3);font-size:18px;padding:0;border-radius:50%}
+.hd{display:grid;grid-template-columns:minmax(300px,1.1fr) 1fr}
+.hd .art{position:relative;min-height:520px;background:#02070e}
+.hd .art img.main{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.hd .art::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 60%,#0a1428);pointer-events:none}
+.skins{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;gap:6px;overflow:auto;padding:30px 12px 12px;background:linear-gradient(transparent,rgba(1,10,19,.95))}
+.skins button{flex:0 0 auto;width:64px;height:64px;border:1px solid var(--gold2);padding:0;background:#050f1c center/cover;opacity:.7;position:relative}
+.skins button.on{border-color:var(--gold3);opacity:1;box-shadow:0 0 12px var(--gold)}
+.skname{position:absolute;left:14px;bottom:100px;z-index:3;font-size:12px;color:var(--gold3);text-shadow:0 0 6px #000,0 0 6px #000;background:rgba(1,10,19,.6);padding:2px 8px;border-left:2px solid var(--gold)}
+.hd .info{padding:28px 30px 28px}
+.hd .info h2{font-size:34px}
+.hd .info .tt{color:var(--gold);font-size:15px;margin:2px 0 14px;letter-spacing:.14em}
+.kv{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.kv div{border:1px solid var(--gold4);background:rgba(200,170,110,.05);padding:8px 10px}
+.kv small{display:block;font-size:10px;color:#7d7a6f;letter-spacing:.2em}
+.kv b{font-weight:600;color:var(--gold3);font-size:14px}
+.bars .r{display:flex;align-items:center;gap:10px;font-size:12px;margin:5px 0}
+.bars .r span{width:44px;color:var(--gold)}
+.bars .r i{flex:1;height:6px;background:#1e2328;position:relative}
+.bars .r i b{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--gold2),var(--gold3))}
+.lore{font-size:13.5px;line-height:1.95;color:#b8b3a4;white-space:pre-line;max-height:170px;overflow:auto;padding-right:6px;margin:10px 0}
+.spells{display:flex;gap:8px;margin:12px 0 6px}
+.spells button{width:50px;height:50px;border:1px solid var(--gold2);padding:0;background:#050f1c;position:relative}
+.spells button img{width:100%;height:100%}
+.spells button em{position:absolute;right:0;bottom:0;font-style:normal;font-size:10px;font-family:var(--serif);background:#010a13;color:var(--gold3);padding:0 4px;border-top:1px solid var(--gold2);border-left:1px solid var(--gold2)}
+.spells button.on{border-color:var(--gold3);box-shadow:0 0 10px var(--gold)}
+.sdesc{min-height:64px;font-size:12.5px;line-height:1.8;padding:8px 12px;border-left:2px solid var(--gold);background:rgba(200,170,110,.06);color:#b8b3a4}
+.sdesc b{color:var(--gold3);font-family:var(--serif)}
+
+/* 角色创建 */
+.cr{display:grid;grid-template-columns:minmax(260px,1fr) minmax(340px,430px) minmax(260px,1fr);gap:26px;align-items:start}
+.fgroup{margin-bottom:16px}
+.fgroup label{display:block;font-family:var(--serif);font-size:12px;color:var(--gold);letter-spacing:.25em;margin-bottom:6px}
+.fgroup label em{font-style:normal;color:#6d6a60;letter-spacing:.05em;font-family:var(--sans);margin-left:6px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{padding:8px 14px;background:#050f1c;border:1px solid var(--gold4);color:var(--text);font-size:13px}
+.seg button:hover{border-color:var(--gold2);color:var(--gold3)}
+.seg button.on{border-color:var(--gold);color:var(--gold3);background:rgba(200,170,110,.15)}
+.racebtn{display:flex;width:100%;align-items:center;gap:12px;padding:8px 10px;background:#050f1c;border:1px solid var(--gold2);color:var(--gold3);text-align:left}
+.racebtn:hover{border-color:var(--gold)}
+.racebtn img{width:46px;height:46px;border:1px solid var(--gold2);object-fit:cover}
+.racebtn small{display:block;color:var(--gold);font-size:11px}
+.racebtn.empty{color:#6d6a60;justify-content:center;padding:16px}
+.avatar{position:sticky;top:0;text-align:center}
+.hexframe{position:relative;width:min(100%,400px);aspect-ratio:1;margin:6px auto 0}
+.hexframe svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.hexframe .face{position:absolute;inset:11.5%;border-radius:50%;overflow:hidden;background:#02070e}
+.hexframe .face img{width:100%;height:100%;object-fit:cover;object-position:50% 25%;transition:filter .8s,transform .6s}
+.hexframe .face::after{content:"";position:absolute;inset:0;background:radial-gradient(circle,rgba(3,60,80,.18),rgba(2,40,56,.65));mix-blend-mode:multiply;transition:.8s;pointer-events:none}
+.hexframe.done .face::after{opacity:0}
+.hexframe:not(.done) .face img{filter:saturate(.55) hue-rotate(8deg) brightness(.8)}
+.hexframe .arrow{position:absolute;top:50%;width:34px;height:34px;transform:translateY(-50%);background:rgba(5,15,28,.88);border:1px solid var(--gold);color:var(--gold3);z-index:4;padding:0;border-radius:50%}
+.hexframe .arrow.l{left:-8px}.hexframe .arrow.r{right:-8px}
+.hexframe .arrow:hover{background:var(--gold);color:#000}
+.upgrade{position:absolute;left:50%;bottom:-6%;transform:translateX(-50%);z-index:5;min-width:132px;padding:12px 22px;font-family:var(--serif);font-weight:700;letter-spacing:.14em;font-size:14px;color:var(--gold3);background:linear-gradient(#2a2318,#0f0c06);border:0;clip-path:polygon(8% 0,92% 0,100% 100%,0 100%);position:absolute}
+.upgrade::before{content:"";position:absolute;inset:0;background:linear-gradient(#c8aa6e,#785a28);z-index:-2}
+.upgrade::after{content:"";position:absolute;inset:2px;background:linear-gradient(#2a2318,#0f0c06);z-index:-1;clip-path:polygon(8% 0,92% 0,100% 100%,0 100%)}
+.upgrade.on{color:#1a1205;animation:glow 1.4s ease-in-out infinite alternate}
+.upgrade.on::after{background:linear-gradient(#f0e6d2,#c8aa6e)}
+.upgrade[disabled]{opacity:.8;cursor:not-allowed}
+@keyframes glow{to{filter:drop-shadow(0 0 12px rgba(240,230,210,.9))}}
+.avname{margin:34px 0 4px;font-family:var(--serif);font-size:20px;color:var(--gold3)}
+.avsub{font-size:12px;color:var(--gold);letter-spacing:.14em}
+.avctl{display:flex;justify-content:center;gap:8px;margin-top:12px;flex-wrap:wrap}
+.pct{font-size:11px;color:#7d7a6f;letter-spacing:.2em;margin-top:8px}
+.attrs .r{display:flex;align-items:center;gap:8px;font-size:12px;margin:5px 0}
+.attrs .r span{width:36px;color:var(--gold);font-family:var(--serif)}
+.attrs .r i{flex:1;height:7px;background:#1e2328;position:relative}
+.attrs .r i b{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--teal2),var(--teal));transition:width .5s}
+.attrs .r em{width:22px;text-align:right;font-style:normal;color:var(--gold3)}
+.talents{margin-top:30px;border:1px solid var(--gold2);background:rgba(5,15,28,.7);padding:20px}
+.talents .th{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.tcard{position:relative;padding:14px 14px 12px;background:linear-gradient(160deg,color-mix(in srgb,var(--q) 16%,#0a1428),#050b17);border:1px solid color-mix(in srgb,var(--q) 55%,#000);text-align:left;color:inherit;transition:.25s;min-height:132px;animation:flip .5s both}
+@keyframes flip{from{opacity:0;transform:rotateY(80deg) scale(.9)}}
+.tcard:hover{transform:translateY(-3px);box-shadow:0 0 18px color-mix(in srgb,var(--q) 55%,transparent)}
+.tcard.sel{outline:2px solid var(--q);box-shadow:0 0 24px var(--q)}
+.tcard.sel::after{content:"✔";position:absolute;right:8px;top:6px;color:var(--q);font-size:16px}
+.tcard .q{font-size:10px;letter-spacing:.25em;color:var(--q);font-family:var(--serif)}
+.tcard h4{font-size:15px;margin:4px 0 6px;color:var(--q)}
+.tcard p{margin:0;font-size:12px;line-height:1.7;color:#a09b8c}
+.tcard .at{margin-top:6px;font-size:11px;color:var(--gold)}
+.picker{display:grid;grid-template-columns:repeat(auto-fill,minmax(62px,1fr));gap:8px;max-height:56vh;overflow:auto;padding:4px}
+.picker button{padding:0;border:1px solid var(--gold4);background:#050f1c;aspect-ratio:1;position:relative}
+.picker button img{width:100%;height:100%;object-fit:cover}
+.picker button:hover{border-color:var(--gold3)}
+.mhead{padding:20px 60px 12px 24px;border-bottom:1px solid var(--gold4)}
+.mbody{padding:18px 24px 24px}
+.itemsel{display:flex;gap:8px;flex-wrap:wrap}
+.itemsel .it{width:46px;height:46px;border:1px solid var(--gold2);background:#050f1c;padding:0;position:relative}
+.itemsel .it img{width:100%;height:100%}
+.itemsel .it.add{color:var(--gold);font-size:22px;border-style:dashed}
+.itemsel .it:hover{border-color:var(--gold3)}
+.races{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.rcard{display:flex;gap:12px;text-align:left;padding:12px;background:#050f1c;border:1px solid var(--gold4);color:inherit;transition:.2s}
+.rcard:hover{border-color:var(--gold);background:rgba(200,170,110,.08)}
+.rcard img{width:64px;height:64px;border:1px solid var(--gold2);object-fit:cover;flex:none}
+.rcard b{font-family:var(--serif);color:var(--gold3);font-size:15px}
+.rcard small{display:block;color:var(--gold);font-size:11px;margin:1px 0 5px}
+.rcard p{margin:0;font-size:12px;line-height:1.65;color:#a09b8c}
+.rcard .bn{margin-top:6px;font-size:11px;color:var(--teal)}
+.cardsheet{display:grid;grid-template-columns:260px 1fr;gap:22px;padding:24px}
+.cardsheet .portrait{border:1px solid var(--gold);aspect-ratio:3/4;background-size:cover;background-position:center 20%}
+.cardsheet dl{display:grid;grid-template-columns:90px 1fr;gap:6px 12px;margin:0;font-size:14px}
+.cardsheet dt{color:var(--gold);font-family:var(--serif);letter-spacing:.14em;font-size:12px;padding-top:2px}
+.cardsheet dd{margin:0;color:var(--gold3);white-space:pre-line;line-height:1.7}
+.toast{position:fixed;left:50%;bottom:40px;transform:translateX(-50%);z-index:90;background:#0a1428;border:1px solid var(--gold);color:var(--gold3);padding:10px 22px;font-size:13px;animation:fadein .3s}
+
+/* 响应式 */
+@media (max-width:1100px){
+  .cr{grid-template-columns:1fr 1fr}.cr .avatar{grid-column:1 / -1;order:-1;position:static}
+  .tl{grid-template-columns:1fr}.tlrail{max-height:none;overflow:visible}.tdetail{position:static}
+  .hd{grid-template-columns:1fr}.hd .art{min-height:380px}.hd .art::after{background:linear-gradient(transparent 60%,#0a1428)}
+}
+@media (max-width:860px){
+  #view-home{overflow:auto}
+  .home{height:auto;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;padding:10px;gap:10px}
+  .mapbox{grid-column:1 / -1;grid-row:1;height:62vh;min-height:360px}
+  .side{display:contents}
+  .tile{width:100%}
+  nav.tabs button{padding:10px 8px;font-size:11px;letter-spacing:.04em}
+  .brand span,.brand small{display:none}.mini .nm{display:none}
+  .cr{grid-template-columns:1fr}.cardsheet{grid-template-columns:1fr}.cardsheet .portrait{aspect-ratio:16/10}
+  .wrap{padding:14px 12px 40px}.kv{grid-template-columns:repeat(2,1fr)}
+  .rpanel{width:100%;background:rgba(1,10,19,.97);padding-left:20px}
+  #topbar{padding:0 8px}
+}
+</style>
+</head>
+<body>
+
+<!-- 开幕：金色能量加载 -->
+<section id="loading">
+  <div class="lbg"></div>
+  <div class="lbox">
+    <div class="logo gold-text">LEAGUE OF LEGENDS</div>
+    <div class="sub">符文之地 · 宇宙档案</div>
+    <div class="ebar"><div class="fill" id="lfill"></div></div>
+    <div class="lpct" id="lpct">CHARGING 0%</div>
+    <div class="lenter" id="lenter">触屏点击进入 · TAP TO ENTER</div>
+  </div>
+</section>
+
+<header id="topbar">
+  <div class="brand" onclick="go('home')"><div class="L"><b>L</b></div><div><small>RUNETERRA ARCHIVE</small><span>符文之地</span></div></div>
+  <nav class="tabs" id="tabs">
+    <button data-v="home" class="on">主城 HOME</button>
+    <button data-v="timeline">时间线</button>
+    <button data-v="codex">英雄图鉴</button>
+    <button data-v="create">角色创建</button>
+  </nav>
+  <div class="mini">
+    <span class="nm" id="miniNm">—</span>
+    <button class="ico" id="miniPP" title="播放/暂停">▶</button>
+    <button class="ico" id="miniNext" title="下一首">⏭</button>
+  </div>
+</header>
+
+<main>
+  <section class="view on" id="view-home">
+    <div class="home">
+      <div class="side" id="sideL">
+        <button class="tile" data-go="timeline"><div class="bgi" data-bg="Zilean_0"></div><span class="num">1</span><div class="cap"><h3>时间线</h3><p>CHRONICLE · 瓦罗兰大陆编年史</p></div></button>
+        <button class="tile" data-go="codex"><div class="bgi" data-bg="Ahri_0"></div><span class="num">2</span><div class="cap"><h3>英雄图鉴</h3><p>CODEX · 全英雄立绘</p></div></button>
+      </div>
+
+      <div class="mapbox" id="mapbox">
+        <div class="maphead"><h2>世界地图 · 符文之地</h2><p>WORLD MAP OF RUNETERRA — 点击城邦查看地区简介与英雄</p></div>
+        <div id="mapStage">
+          <div class="mapfallback"></div>
+          <img class="mapimg" id="mapimg" alt="符文之地地图" referrerpolicy="no-referrer">
+        </div>
+        <div class="mapctl"><button id="zin" title="放大">＋</button><button id="zout" title="缩小">－</button><button id="zreset" title="复位" style="font-size:14px">⌂</button></div>
+        <div class="maphint">拖动平移 · 滚轮/双指缩放</div>
+        <aside class="rpanel" id="rpanel"></aside>
+      </div>
+
+      <div class="side" id="sideR">
+        <button class="tile" data-go="create"><div class="bgi" data-bg="Lux_0"></div><span class="num">3</span><div class="cap"><h3>角色创建</h3><p>CREATE · 写下你的传说</p></div></button>
+        <div class="tile bgm" id="bgmTile">
+          <div class="cover" id="bgmCover"></div>
+          <span class="num" style="z-index:5">4</span>
+          <div class="disc" id="bgmDisc"></div>
+          <div class="ctl">
+            <div class="ttl" id="bgmTtl">—</div><div class="art" id="bgmArt">—</div>
+            <div class="prog" id="bgmProg"><i id="bgmBar"></i></div>
+            <div class="btns"><button id="bgmPrev">⏮</button><button class="pp" id="bgmPP">▶</button><button id="bgmNext">⏭</button><button id="bgmList" title="歌单">☰</button><button id="bgmVol" title="音量">🔊</button></div>
+          </div>
+          <div class="list" id="bgmListBox"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-timeline"></section>
+  <section class="view" id="view-codex"></section>
+  <section class="view" id="view-create"></section>
+</main>
+
+<div id="modal"><div class="mbox" id="mbox"></div></div>
+<audio id="bgm" preload="none" referrerpolicy="no-referrer"></audio>
+
+<script>
+/* =========================================================
+   所有图片均为公开在线外链（Riot 官方 Data Dragon CDN / 维基地图 / 网易云封面），
+   没有本地文件、没有内嵌 base64，任何人打开页面都能看到。
+   ========================================================= */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const DD='https://ddragon.leagueoflegends.com';
+let VER='16.21.1';
+const MAP_URLS=[
+  'https://vignette.wikia.nocookie.net/leagueoflegends/images/a/a8/Runeterra_Terrain_map.jpg/revision/latest?cb=20180724203019'
+];
+const IMG={
+  splash:(id,n=0)=>`${DD}/cdn/img/champion/splash/${id}_${n}.jpg`,
+  loading:(id,n=0)=>`${DD}/cdn/img/champion/loading/${id}_${n}.jpg`,
+  centered:(id,n=0)=>`${DD}/cdn/img/champion/centered/${id}_${n}.jpg`,
+  icon:id=>`${DD}/cdn/${VER}/img/champion/${id}.png`,
+  item:id=>`${DD}/cdn/${VER}/img/item/${id}.png`,
+  spell:f=>`${DD}/cdn/${VER}/img/spell/${f}`,
+  passive:f=>`${DD}/cdn/${VER}/img/passive/${f}`
+};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const strip=s=>String(s||'').replace(/<br\s*\/?>/gi,'\n').replace(/<[^>]+>/g,'').replace(/&nbsp;/g,' ');
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+function toast(t){const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),2200)}
+
+/* ---------- 全部英雄 ID（联网失败时的兜底） ---------- */
+const ALL_IDS=`Aatrox Ahri Akali Akshan Alistar Ambessa Amumu Anivia Annie Aphelios Ashe AurelionSol Aurora Azir Bard Belveth Blitzcrank Brand Braum Briar Caitlyn Camille Cassiopeia Chogath Corki Darius Diana Draven DrMundo Ekko Elise Evelynn Ezreal Fiddlesticks Fiora Fizz Galio Gangplank Garen Gnar Gragas Graves Gwen Hecarim Heimerdinger Hwei Illaoi Irelia Ivern Janna JarvanIV Jax Jayce Jhin Jinx Kaisa Kalista Karma Karthus Kassadin Katarina Kayle Kayn Kennen Khazix Kindred Kled KogMaw KSante Leblanc LeeSin Leona Lillia Lissandra Locke Lucian Lulu Lux Malphite Malzahar Maokai MasterYi Mel Milio MissFortune MonkeyKing Mordekaiser Morgana Naafiri Nami Nasus Nautilus Neeko Nidalee Nilah Nocturne Nunu Olaf Orianna Ornn Pantheon Poppy Pyke Qiyana Quinn Rakan Rammus RekSai Rell Renata Renekton Rengar Riven Rumble Ryze Samira Sejuani Senna Seraphine Sett Shaco Shen Shyvana Singed Sion Sivir Skarner Smolder Sona Soraka Swain Sylas Syndra TahmKench Taliyah Talon Taric Teemo Thresh Tristana Trundle Tryndamere TwistedFate Twitch Udyr Urgot Varus Vayne Veigar Velkoz Vex Vi Viego Viktor Vladimir Volibear Warwick Xayah Xerath XinZhao Yasuo Yone Yorick Yunara Yuumi Zaahen Zac Zed Zeri Ziggs Zilean Zoe Zyra`.split(/\s+/);
+
+/* ---------- 地区 ---------- */
+const REGIONS=[
+ {id:'freljord',n:'弗雷尔卓德',en:'FRELJORD',c:'#7fd7ff',x:31.3,y:32.5,face:'Ashe',mt:'“在冰雪之中，只有强者与团结者才能活下去。”',
+  d:'符文之地极北的苦寒冰原，暴风雪与古老的冰霜之力统治着这里。部族之间为生存而争斗，也为传说中的“三姐妹”遗志而分裂：艾瓦罗萨的霜卫、冬之爪的铁蹄与冰裔的古老誓言在此交错。',
+  spots:['霜卫要塞','冬之爪领地','冰爪部落','艾瓦罗萨之地'],race:'人类、冰裔、雪怪、半神'},
+ {id:'demacia',n:'德玛西亚',en:'DEMACIA',c:'#a8c8ff',x:25.4,y:44.9,face:'Garen',mt:'“德玛西亚万岁！”',
+  d:'以荣耀、律法与军纪立国的光辉王国，白石高墙下是严整的军团与虔诚的子民。因魔法战争的阴影，王国长期对魔法保持警惕，“魔法猎人”由此而生。如今，国度的光与影在改革中经受考验。',
+  spots:['德玛西亚王城','五大军团驻地','天际圣所','赫瑟斯山口'],race:'人类'},
+ {id:'noxus',n:'诺克萨斯',en:'NOXUS',c:'#e0605a',x:45.6,y:39.7,face:'Darius',mt:'“力量即一切。”',
+  d:'一个只认实力而不问出身的庞大帝国。无论身世多么卑微，只要证明自己，就能登上权力之巅。凭借铁腕与扩张，诺克萨斯兵锋所向，既带来秩序，也带来征服。',
+  spots:['诺克萨斯之都','黑色玫瑰','三军团驻地','战争学院旧址'],race:'人类、蛇人、混血者'},
+ {id:'piltover',n:'皮尔特沃夫',en:'PILTOVER',c:'#f5c451',x:63,y:45.5,face:'Jayce',mt:'“进步，永无止境。”',
+  d:'坐落于海岸悬崖的繁荣之城，学院、商会与发明家们将魔法与科学糅合成海克斯科技。高耸的钟楼与精致的大道背后，是不属于“上城”的阴影，以及与脚下祖安的千丝万缕。',
+  spots:['皮尔特沃夫学院','议会大厅','海克斯科技工坊','港口区'],race:'人类、约德尔人'},
+ {id:'zaun',n:'祖安',en:'ZAUN',c:'#7bff9a',x:58.5,y:54.5,face:'Jinx',mt:'“从废墟中，也能长出新的东西。”',
+  d:'位于皮尔特沃夫之下的深谷城邦，烟雾与化学雾霭终日笼罩。这里的人们以炼金、改造与地下交易求生，既孕育疯狂的天才，也孕育最不屈的反抗者。',
+  spots:['下城区','炼金工坊','地下市场','化学深谷'],race:'人类、改造者、机械'},
+ {id:'ionia',n:'艾欧尼亚',en:'IONIA',c:'#ff8fd1',x:74.9,y:39.7,face:'Ahri',mt:'“万物有灵，均衡则安。”',
+  d:'精神与自然交织的魔法群岛，以平衡与宁静著称，也是瓦斯塔亚与诸多灵体的故乡。诺克萨斯入侵之后，艾欧尼亚的修行者、教派与城邦在战火中重新定义自己的道路。',
+  spots:['安宁邦','纳沃利','影流教派圣地','均衡教派修道院'],race:'人类、瓦斯塔亚、精魂'},
+ {id:'shurima',n:'恕瑞玛',en:'SHURIMA',c:'#ffcf5a',x:53.4,y:67.1,face:'Azir',mt:'“沙海之下，旧日的荣光仍在沉睡。”',
+  d:'曾经统治世界的太阳帝国，如今只剩黄沙与断壁。飞升者的传说、暗裔的战争与太阳圆盘之祸都埋藏在这片沙漠之下，而那沉睡的力量正逐渐苏醒。',
+  spots:['恕瑞玛古城','太阳圆盘遗址','沙漠商路','飞升者圣殿'],race:'人类、飞升者、暗裔'},
+ {id:'targon',n:'巨神峰',en:'MOUNT TARGON',c:'#b89cff',x:40.6,y:67.7,face:'Leona',mt:'“仰望星空，便能听见天上的回响。”',
+  d:'符文之地最高的山峰，直刺云霄。太阳信徒与月之信徒在山间修行，传说攀至山顶者将与星灵订下契约，成为神明的容器——也承受相应的代价。',
+  spots:['太阳祭坛','月之神殿','星灵之巅','山麓村庄'],race:'人类、星灵、半神'},
+ {id:'ixtal',n:'以绪塔尔',en:'IXTAL',c:'#4fd68a',x:67,y:64,face:'Nidalee',mt:'“元素有灵，与自然同行。”',
+  d:'隐藏在恕瑞玛东南雨林深处的古老国度，以元素魔法立国，长期与外界隔绝。这里的巫师、猎手与守护者共同守护着自然的秘密，也守护着国度不受外界觊觎。',
+  spots:['以绪塔尔之都','元素之塔','雨林深处','玄火神殿'],race:'人类、元素生灵、野兽'},
+ {id:'bilgewater',n:'比尔吉沃特',en:'BILGEWATER',c:'#ff9a5c',x:75,y:58.2,face:'MissFortune',mt:'“金币与鲜血，都是通行证。”',
+  d:'蛇岛上的海盗港口，混乱、野蛮又充满机遇。赏金猎人、海盗团、走私客与怪物同处一港，只要胆子够大、出手够快，便能在这里赢得属于自己的传奇。',
+  spots:['比尔吉沃特港','蛇岛','屠夫之桥','黑市'],race:'人类、海怪、亡灵水手'},
+ {id:'shadow',n:'暗影岛',en:'SHADOW ISLES',c:'#4de3b5',x:87.6,y:68.6,face:'Thresh',mt:'“逝者不得安息，生者亦不得解脱。”',
+  d:'昔日的福佑之地，因毁灭之雾的降临而沦为亡魂游荡之所。黑雾侵蚀的不止是肉体，还有执念与记忆，使这里成为符文之地最阴暗、最危险的角落之一。',
+  spots:['福佑之地遗迹','黑雾之海','亡魂灯塔','堕落王城'],race:'亡灵、幽魂、受黑雾侵蚀者'},
+ {id:'bandle',n:'班德尔城',en:'BANDLE CITY',c:'#ffb3e8',x:6.8,y:35.4,face:'Teemo',mt:'“小个子也有大魔法！”',
+  d:'约德尔人的故乡，隐于魔法迷雾之中的奇妙城镇。街道随灵感而变，气球、蘑菇屋与魔法发明随处可见。他们个子虽小，却拥有最奇特的想象力与最坚固的友谊。',
+  spots:['班德尔城中心','魔法蘑菇林','约德尔工坊','迷雾边境'],race:'约德尔人、魔法生灵'},
+ {id:'void',n:'虚空',en:'THE VOID',c:'#b45cff',x:14.3,y:78.1,face:'Khazix',mt:'“……”',
+  d:'存在于现实之外的无尽虚无，由饥饿与扭曲构成。虚空生物渴望吞噬一切，并将世界拖入同化。它没有固定的位置，裂隙可能在符文之地的任何角落打开。',
+  spots:['虚空裂隙','伊卡西亚废墟','腐化之地','深渊'],race:'虚空生物、被腐化者'},
+ {id:'runeterra',n:'符文之地·无定所',en:'WANDERERS',c:'#c8aa6e',x:null,y:null,face:'Bard',mt:'“在世界每一个缝隙之间。”',
+  d:'游荡于符文之地各个角落、难以被任何一个国度所定义的存在：漫游的星灵、恶魔、灵体与远古的遗民。他们不属于任何版图，却无处不在。',
+  spots:[],race:'各族'}
+];
+const RMAP=Object.fromEntries(REGIONS.map(r=>[r.id,r]));
+
+/* ---------- 英雄归属：地区 / 种族 / 实力 ---------- */
+const REGION_LISTS={
+ freljord:'Anivia Ashe Aurora Braum Brand Gnar Gragas Lissandra Nunu Olaf Ornn Sejuani Trundle Tryndamere Udyr Volibear',
+ demacia:'Fiora Galio Garen JarvanIV Kayle Lucian Lux Locke Morgana Poppy Quinn Senna Shyvana Sona Sylas Vayne XinZhao',
+ noxus:'Alistar Ambessa Annie Briar Cassiopeia Darius Draven Katarina Kled Leblanc Mel Mordekaiser Rell Riven Samira Sion Smolder Swain Talon Vladimir',
+ piltover:'Caitlyn Camille Ezreal Heimerdinger Jayce Orianna Seraphine Vi',
+ zaun:'Blitzcrank DrMundo Ekko Janna Jinx Renata Singed Twitch Urgot Viktor Warwick Zac Zeri',
+ ionia:'Ahri Akali Hwei Irelia Ivern Jhin Karma Kayn Kennen Lillia LeeSin MasterYi Nami Rakan Sett Shen Syndra Varus MonkeyKing Xayah Yasuo Yone Yunara Zed',
+ shurima:'Aatrox Akshan Amumu Kaisa Naafiri Nasus Rammus Renekton Sivir Taliyah Xerath Zaahen',
+ targon:'Aphelios AurelionSol Diana Leona Pantheon Soraka Taric Zoe',
+ ixtal:'Malphite Milio Neeko Nidalee Qiyana Rengar Skarner Zyra',
+ bilgewater:'Fizz Gangplank Graves Illaoi Nautilus Nilah MissFortune Pyke TahmKench TwistedFate',
+ shadow:'Elise Gwen Hecarim Kalista Karthus Maokai Thresh Viego Vex Yorick',
+ bandle:'Corki Lulu Rumble Teemo Tristana Veigar Yuumi Ziggs',
+ void:'Belveth Chogath Khazix KogMaw Kassadin Malzahar RekSai Velkoz',
+ runeterra:'Bard Evelynn Fiddlesticks Jax KSante Kindred Nocturne Ryze Shaco Zilean'
+};
+const REGION_OF={};Object.entries(REGION_LISTS).forEach(([r,l])=>l.split(' ').forEach(i=>REGION_OF[i]=r));
+
+/* 种族预设（角色创建可选） */
+const RACES={
+ human:{n:'人类',en:'Human',ex:'Garen',d:'符文之地数量最多的族群，没有天赋的血脉，却有最顽强的意志与最多样的道路。',bn:{力量:1,敏捷:1,智力:1,体质:1,魅力:2},ab:'适应力：可自由修习任何流派的战技或魔法。'},
+ vastaya:{n:'瓦斯塔亚',en:'Vastaya',ex:'Ahri',d:'古老魔法与野兽血脉交融的族群，拥有动物般的灵性与魔法天赋，多栖居于艾欧尼亚。',bn:{敏捷:2,智力:1,魅力:2},ab:'灵性亲和：对魔法与自然灵体具有直觉般的感知。'},
+ yordle:{n:'约德尔人',en:'Yordle',ex:'Teemo',d:'来自班德尔城的小小魔法种族，聪明、调皮又忠诚，个子虽小却能与巨人并肩作战。',bn:{敏捷:2,智力:2,魅力:1},ab:'小个子大魔法：天然擅长潜行、发明与奇妙的小魔法。'},
+ undead:{n:'亡灵',en:'Undead',ex:'Thresh',d:'死而不灭的存在，受黑雾、执念或古老诅咒驱使，游荡于生与死的边界。',bn:{力量:1,体质:3,魅力:-1,智力:1},ab:'不死之躯：对致命伤有极强的抗性，但被光明灼烧。'},
+ demon:{n:'恶魔',en:'Demon',ex:'Fiddlesticks',d:'由恐惧、欲望或古老的恶意凝结而成的异界存在，以人心的阴影为食。',bn:{智力:2,敏捷:1,魅力:2},ab:'恐惧汲取：能从他人的恐惧中汲取力量。'},
+ darkin:{n:'暗裔',en:'Darkin',ex:'Aatrox',d:'曾是恕瑞玛的守护者，被腐化后封存于武器与器物之中，借宿主之躯重临世间。',bn:{力量:3,体质:2,魅力:-1},ab:'血之渴求：在战斗中不断强化，但需提防意志被吞噬。'},
+ void:{n:'虚空生物',en:'Voidborn',ex:'Khazix',d:'来自现实之外的饥饿造物，进化与捕食是它们唯一的法则。',bn:{力量:1,敏捷:2,体质:2,魅力:-2},ab:'虚空适应：在不断狩猎中进化出新的器官与能力。'},
+ dragon:{n:'龙裔',en:'Dragonkin',ex:'Shyvana',d:'身负龙族血脉或龙之本质的存在，既能保持人形，也能展露毁灭性的龙躯。',bn:{力量:2,体质:2,魅力:1},ab:'龙之吐息：可释放灼热或元素之息，但情绪激荡时难以克制。'},
+ construct:{n:'魔偶／机械',en:'Construct',ex:'Blitzcrank',d:'由魔法、炼金或海克斯科技造就的人造生命，拥有坚固的躯壳与独特的“心”。',bn:{力量:2,体质:3,魅力:-1},ab:'钢铁之躯：免疫常规疾病，可以改装与升级。'},
+ ascended:{n:'飞升者',en:'Ascended',ex:'Azir',d:'曾借太阳圆盘飞升的恕瑞玛半神战士，拥有超乎常人的躯体与漫长的寿命。',bn:{力量:2,智力:1,体质:2,魅力:1},ab:'太阳之躯：驾驭沙与阳光的力量，自愈力超凡。'},
+ celestial:{n:'星灵／半神',en:'Celestial',ex:'Soraka',d:'与巨神峰星灵或古老神祇缔约的存在，肩负着超越凡人的使命。',bn:{智力:2,体质:1,魅力:3},ab:'星辰共鸣：可借取星界之力，但无法逃避神谕的牵引。'},
+ spirit:{n:'精魂／自然灵',en:'Spirit',ex:'Ivern',d:'由自然、记忆与信念孕育的灵体，既温柔又难以捉摸。',bn:{敏捷:1,智力:2,体质:1,魅力:2},ab:'与万物为友：能与植物、动物及灵体交流。'},
+ beast:{n:'巨魔／兽族',en:'Beastkin',ex:'Trundle',d:'天生拥有蛮力与野性的种族，包括巨魔、牛头人及形形色色的远古异兽。',bn:{力量:3,体质:2,智力:-1,魅力:1},ab:'野性本能：嗅觉、听觉远超常人，擅长近身搏杀。'}
+};
+const RACE_LISTS={
+ vastaya:'Ahri Rakan Xayah Neeko Nami Sett Rengar MonkeyKing Aurora',
+ yordle:'Corki Fizz Gnar Heimerdinger Kennen Kled Lulu Poppy Rumble Teemo Tristana Veigar Vex Yuumi Ziggs',
+ undead:'Amumu Hecarim Kalista Karthus Mordekaiser Thresh Viego Yorick Sion Nautilus Pyke',
+ demon:'Fiddlesticks Evelynn Shaco Nocturne TahmKench Elise Brand',
+ darkin:'Aatrox Varus Kayn Naafiri Zaahen',
+ void:'Belveth Chogath Khazix KogMaw RekSai Velkoz',
+ dragon:'Shyvana Smolder AurelionSol',
+ construct:'Blitzcrank Galio Malphite Orianna Viktor Zac Urgot DrMundo Warwick Gwen',
+ ascended:'Azir Nasus Renekton Xerath',
+ celestial:'Soraka Diana Leona Pantheon Zoe Kayle Morgana Taric Bard Kindred Volibear Ornn',
+ spirit:'Ivern Lillia Maokai Anivia Zyra',
+ beast:'Trundle Rammus Skarner Alistar'
+};
+const RACE_OF={};Object.entries(RACE_LISTS).forEach(([r,l])=>l.split(' ').forEach(i=>RACE_OF[i]=r));
+const TIERS={SS:{n:'神话级',c:'tSS'},S:{n:'传说级',c:'tS'},A:{n:'史诗级',c:'tA'},B:{n:'精英级',c:'tB'},C:{n:'凡人级',c:'tC'}};
+const SS=new Set('AurelionSol Kindred Fiddlesticks Aatrox Ryze Soraka'.split(' '));
+const SL=new Set('Azir Xerath Nasus Renekton Swain Mordekaiser Viego Belveth Pantheon Leona Diana Volibear Ornn Bard Zilean Anivia Malzahar Velkoz Kayle Morgana Shyvana Thresh Varus Zaahen Taric Aphelios Zoe Chogath Hecarim Smolder Kassadin'.split(' '));
+function tierOf(c){ if(SS.has(c.id))return'SS'; if(SL.has(c.id))return'S'; const i=c.info||{};const s=(i.attack||0)+(i.defense||0)+(i.magic||0); return s>=16?'A':s>=13?'B':'C'; }
+const TAGZH={Fighter:'战士',Tank:'坦克',Mage:'法师',Assassin:'刺客',Marksman:'射手',Support:'辅助'};
+
+/* ---------- 编年史 ---------- */
+const TIMELINE=[
+ {era:'远古',t:'星辰与符文：世界的诞生',bg:'AurelionSol',reg:['targon','runeterra'],ch:['AurelionSol','Soraka','Bard','Kindred','Pantheon'],
+  d:'世界由原初的魔法编织而成。星灵、巨龙与古老的存在行走于大地之上，符文之地的轮廓与魔法法则在这一时期成形。巨神峰上的信徒仰望星空，把那份天外之力视作神谕。'},
+ {era:'远古',t:'恕瑞玛：太阳帝国崛起',bg:'Azir',reg:['shurima'],ch:['Azir','Nasus','Renekton','Xerath','Sivir','Taliyah'],
+  d:'在黄沙之上，恕瑞玛建起了凌驾诸邦的太阳帝国。凡人借太阳圆盘飞升，成为强大的“飞升者”，帝国的疆域与荣光在此刻达到顶点。'},
+ {era:'远古',t:'伊卡西亚陨落，虚空降临',bg:'Velkoz',reg:['void','runeterra'],ch:['Jax','Malzahar','Velkoz','Chogath','Khazix'],
+  d:'伊卡西亚人窥探现实之外的世界，却引来了“虚空”。他们的国度被吞噬，只留下被腐化的残骸与永不满足的饥饿。'},
+ {era:'远古',t:'暗裔战争',bg:'Aatrox',reg:['shurima','runeterra'],ch:['Aatrox','Varus','Kayn','Naafiri','Zaahen'],
+  d:'堕落的暗裔曾是恕瑞玛的守护者，战争中被腐化，成为席卷世界的灾厄。飞升者与凡人联军将暗裔封印于武器与器物之中，而他们的低语至今未息。'},
+ {era:'远古',t:'太阳圆盘之祸',bg:'Renekton',reg:['shurima'],ch:['Azir','Sivir','Nasus','Renekton'],
+  d:'飞升仪式被背叛打断，帝国之都一夜陷落，恕瑞玛由此衰败，沦为沙海中的废墟，飞升者们或沉睡或陨落。'},
+ {era:'数千年前',t:'福佑之地的湮灭',bg:'Viego',reg:['shadow'],ch:['Viego','Thresh','Hecarim','Karthus','Yorick','Kalista','Maokai','Elise'],
+  d:'国王为复活亡妻，在福佑之地召来毁灭之雾。整座岛屿化为暗影岛，亡者在黑雾中永不安息。'},
+ {era:'千年前',t:'符文战争',bg:'Ryze',reg:['runeterra','demacia','noxus'],ch:['Ryze','Zilean','Kassadin','Malzahar'],
+  d:'魔法席卷大陆，各方势力围绕符文展开争夺，大地满目疮痍。战后的人们开始畏惧、管控甚至禁止魔法。'},
+ {era:'数百年前',t:'德玛西亚立国',bg:'Garen',reg:['demacia'],ch:['JarvanIV','Garen','Fiora','Lux','Galio','Quinn'],
+  d:'德玛西亚在战火余烬中立国，以荣耀与秩序立身，修筑高墙，并对魔法保持戒备，“魔法猎人”随之兴起。'},
+ {era:'数百年前',t:'诺克萨斯崛起',bg:'Darius',reg:['noxus'],ch:['Darius','Swain','Katarina','Draven','Riven','Leblanc'],
+  d:'在这个弱肉强食的帝国中，只要拥有实力，人人都可登顶。军团四处扩张，诺克萨斯的旗帜插遍大陆边疆。'},
+ {era:'数百年前',t:'冰原三姐妹与部族之争',bg:'Ashe',reg:['freljord'],ch:['Ashe','Sejuani','Lissandra','Tryndamere','Braum','Anivia','Volibear'],
+  d:'三位姐妹的传说塑造了弗雷尔卓德的格局：霜卫、冬之爪与冰裔古老的誓言交错，部族们在永冬中争夺生存的空间。'},
+ {era:'数百年前',t:'比尔吉沃特的海盗年代',bg:'Gangplank',reg:['bilgewater'],ch:['Gangplank','MissFortune','Graves','TwistedFate','Nautilus','Pyke','Illaoi','Fizz'],
+  d:'蛇岛上的港口迅速膨胀，成为海盗、赏金猎人与亡命徒的天堂，也孕育了无数传奇与悲剧。'},
+ {era:'近代',t:'进步之城与灰色峡谷',bg:'Jayce',reg:['piltover','zaun'],ch:['Jayce','Viktor','Heimerdinger','Singed','Warwick','Camille','Orianna'],
+  d:'皮尔特沃夫在海克斯科技的推动下飞速发展，上城的繁荣与下城祖安的灰暗相互依存，也暗藏裂痕。'},
+ {era:'近代',t:'诺克萨斯入侵艾欧尼亚',bg:'Irelia',reg:['ionia','noxus'],ch:['Irelia','Karma','Shen','Zed','Riven','Kennen'],
+  d:'诺克萨斯的军团踏上艾欧尼亚群岛，战争催生了反抗者与英雄，也深深改变了这片宁静之地。'},
+ {era:'近代',t:'英雄联盟的召唤',bg:'Ahri',reg:['runeterra'],ch:['Ahri','Garen','Darius','Ezreal','Lux','Ashe'],
+  d:'为避免各国全面开战，召唤师们以符文石召唤英雄，在联盟的战场上以对抗取代战争。该设定在不同时期被重新诠释，你可以把它当作一个舞台，也可以当作一段历史。'},
+ {era:'近期',t:'黑雾再临：毁灭之战',bg:'Gwen',reg:['shadow','runeterra'],ch:['Viego','Gwen','Senna','Lucian','Vex','Maokai','Thresh'],
+  d:'毁灭之王重现，黑雾自暗影岛向大陆蔓延，所到之处生灵涂炭，诸国英雄被迫联手应对。'},
+ {era:'近期',t:'双城之战',bg:'Jinx',reg:['piltover','zaun'],ch:['Vi','Jinx','Caitlyn','Ekko','Jayce','Viktor','Mel','Ambessa','Heimerdinger'],
+  d:'皮尔特沃夫与祖安的矛盾在海克斯科技与权力的撕扯中爆发，姐妹、挚友与政客，在冲突中走向各自的命运。'},
+ {era:'现今',t:'新的纪元：你的故事',bg:'Aurora',reg:['noxus','freljord','demacia','shurima','ionia'],ch:['Ambessa','Mel','Aurora','Locke','Yunara','Hwei','Smolder','Briar','Zaahen'],
+  d:'旧时代的伤痕仍未愈合，新的力量在各地苏醒。无论你是流亡的贵族、街头的孤儿还是被命运选中的旅者，符文之地都在等待你写下下一页。'}
+];
+
+/* ---------- 天赋 ---------- */
+const QUAL={
+ w:{n:'普通',c:'#c9cdd4',w:50},b:{n:'精良',c:'#3fa4ff',w:28},p:{n:'史诗',c:'#b76bff',w:14},g:{n:'传说',c:'#ffc83d',w:6},r:{n:'神话',c:'#ff4d4d',w:2}
+};
+const TALENTS=[
+ ['w','过目不忘','只需一眼便能记住地图、面孔与咒文。',{智力:1}],
+ ['w','铁胃','不论是比尔吉沃特的烈酒还是祖安的污水，都难不倒你。',{体质:1}],
+ ['w','夜行者','在昏暗环境中依旧行动自如。',{敏捷:1}],
+ ['w','天生的好人缘','陌生人总愿意多和你说两句话。',{魅力:1}],
+ ['w','不屈的脊梁','受伤也不轻易倒下。',{体质:1}],
+ ['w','灵巧手指','开锁、扒窃或修补机关都得心应手。',{敏捷:1}],
+ ['w','战场直觉','总能在混战中找到最安全的位置。',{敏捷:1,智力:0}],
+ ['b','符文共鸣','能感知附近符文与魔法的流动。',{智力:2}],
+ ['b','海克斯直觉','对海克斯科技造物有天生的亲和与理解。',{智力:1,敏捷:1}],
+ ['b','德玛西亚军纪','严格的训练塑造了你坚毅的体魄与纪律。',{力量:1,体质:1}],
+ ['b','艾欧尼亚冥想','内心平静，难以被幻术与恐惧动摇。',{智力:1,魅力:1}],
+ ['b','极地耐寒','弗雷尔卓德的风雪对你不过是微风。',{体质:2}],
+ ['b','比尔吉沃特水手步','在摇晃的甲板与狭窄的巷道里依然灵活。',{敏捷:2}],
+ ['b','祖安炼金学徒','能调制简单的药剂与化学品，偶尔会炸掉点东西。',{智力:1,敏捷:1}],
+ ['b','老练的猎手','追踪与设伏的技艺炉火纯青。',{敏捷:1,力量:1}],
+ ['p','诺克萨斯之血','越是被逼入绝境，爆发出的力量越强。',{力量:2,体质:1}],
+ ['p','星界回响','偶尔会听见星灵的低语，指引你避开危险。',{智力:2,魅力:1}],
+ ['p','暗影行者','能短暂融入阴影之中，不留痕迹。',{敏捷:3}],
+ ['p','炼金改造体','身体经过改造，拥有额外的力量与恢复力。',{力量:2,体质:2}],
+ ['p','元素亲和','与火、水、风、土之一结缘，能轻易引导其力量。',{智力:2,体质:1}],
+ ['p','龙血余韵','血脉深处仍有龙族的低吼。',{力量:2,魅力:1}],
+ ['p','约德尔魔运','关键时刻，总有“巧合”帮你一把。',{敏捷:1,魅力:2}],
+ ['g','太阳圆盘的碎片','你携带着恕瑞玛的古老遗物，能短暂召来灼热的阳光。',{力量:2,智力:2,魅力:1}],
+ ['g','月之祝福','在夜晚，你的感官与治愈力都会成倍增长。',{智力:2,体质:2,敏捷:1}],
+ ['g','虚空契约','与虚空达成了危险的协议：你得到了力量，但梦里总有注视。',{力量:3,智力:2,魅力:-1}],
+ ['g','海克斯核心','胸口嵌着一枚海克斯水晶，为你提供源源不断的能量。',{体质:3,智力:2}],
+ ['g','命运之牌','你的每个选择都似乎被命运偏爱，总能抽到“好牌”。',{魅力:3,敏捷:2}],
+ ['g','不灭火种','即使跌入深渊，心中的一簇火焰也不会熄灭。',{体质:3,魅力:2}],
+ ['g','灰烬之誓','你立下的誓言一旦许下，便不可违背，但誓言的力量也将回应你。',{力量:2,体质:2,魅力:1}],
+ ['r','星灵共鸣者','星灵选中了你，在最黑暗的时刻，星光将为你亮起。',{智力:4,魅力:4,体质:2}],
+ ['r','暗裔之躯','你的躯体里沉睡着远古暗裔的意志，释放它便是毁灭，压制它是修行。',{力量:5,体质:4,魅力:-2}],
+ ['r','符文之地的持有者','你握有世界符文的一角，诸国都在寻找你。',{智力:5,魅力:3,体质:2}],
+ ['r','时间的旁观者','你能短暂窥见过去与未来的碎片，却无法改写它们。',{智力:5,敏捷:3,魅力:2}]
+];
+const ATTRS=['力量','敏捷','智力','体质','魅力'];
+const TRAITS='勇敢 冷静 狡黠 热血 忠诚 孤傲 温柔 野心勃勃 疯狂 正义 好奇 多疑 乐观 沉默寡言 骄傲 悲悯 复仇心切 守序 混乱 自由不羁'.split(' ');
+const NAMES={freljord:['艾尔瓦','托尔格','雷娜','布罗姆'],demacia:['塞琳娜','亚瑟·洛恩','薇拉','艾德蒙'],noxus:['卡西乌斯','维拉克','瑟琳','格雷戈'],piltover:['艾琳','马库斯','莉亚','克劳德'],zaun:['夜莺','扳手','零','烟雾'],ionia:['玄','凛','岚','夜之渊'],shurima:['塔赫','阿卡尔','娜芙','赛特'],targon:['昼','露娜','奥瑞恩','星愿'],ixtal:['伊斯','苔','卡瓦','风吟'],bilgewater:['红胡子','珍妮','鲨牙','盐泪'],shadow:['无名','迟暮','影噬','伊索德'],bandle:['噗噜','滴答','蘑菇','咕咚'],void:['无貌','裂隙','饥饿','空寂'],runeterra:['行者','旅人','无名氏','漂泊者']};
+
+/* ---------- 全局状态 ---------- */
+const S={CH:{},list:[],detail:{},items:null,tl:null,codex:{reg:'all',q:'',tag:'all'},
+ cr:{champ:'Ahri',skin:0,name:'',gender:'',age:'',race:'',traits:[],trait2:'',region:'',era:'',origin:'',special:'',items:[],rolled:[],picked:[],rerolls:3}};
+let view='home';
+
+/* ---------- 数据加载 ---------- */
+async function loadData(onProgress){
+  try{
+    const v=await (await fetch(`${DD}/api/versions.json`)).json(); VER=v[0];
+  }catch(e){}
+  onProgress(10);
+  let data=null;
+  try{ data=(await (await fetch(`${DD}/cdn/${VER}/data/zh_CN/champion.json`)).json()).data; }catch(e){ console.warn('champion.json 加载失败，使用兜底',e); }
+  if(data){
+    Object.values(data).forEach(c=>S.CH[c.id]={id:c.id,name:c.title,title:c.name,blurb:c.blurb,tags:c.tags,info:c.info,stats:c.stats,partype:c.partype});
+  }else{
+    ALL_IDS.forEach(id=>S.CH[id]={id,name:id,title:'',blurb:'',tags:[],info:{attack:5,defense:5,magic:5,difficulty:5},stats:{},partype:''});
+  }
+  Object.values(S.CH).forEach(c=>{c.region=REGION_OF[c.id]||'runeterra';c.race=RACE_OF[c.id]||'human';c.tier=tierOf(c)});
+  S.list=Object.values(S.CH).sort((a,b)=>a.name.localeCompare(b.name,'zh-Hans-CN-u-co-pinyin'));
+  onProgress(40);
+}
+function preload(url){return new Promise(r=>{const i=new Image();i.onload=i.onerror=()=>r(i.naturalWidth>0);i.src=url;setTimeout(()=>r(false),12000)})}
+
+/* ---------- 开幕加载 ---------- */
+(async function boot(){
+  const L=$('#loading'),bg=$('.lbg',L);
+  const bgs=['Aatrox_0','Ahri_0','Yasuo_0','Jinx_0','Garen_0','Lux_0','Thresh_0','Azir_0','Ashe_0','Zed_0'];
+  bg.style.backgroundImage=`url(${DD}/cdn/img/champion/splash/${pick(bgs)}.jpg)`;
+  const im=new Image();im.onload=()=>bg.classList.add('on');im.src=bg.style.backgroundImage.slice(5,-2);
+  setTimeout(()=>bg.classList.add('on'),1500);
+  let real=0,shown=0;
+  const setReal=v=>real=Math.max(real,v);
+  const t0=performance.now();
+  const timer=setInterval(()=>{
+    const el=(performance.now()-t0)/1000;
+    const cap=Math.min(real,100);
+    const minimum=Math.min(el/2.6*100,100);
+    const target=Math.min(cap,minimum);
+    shown+=(target-shown)*0.12; if(target-shown<0.3)shown=target;
+    $('#lfill').style.width=shown.toFixed(1)+'%';
+    $('#lpct').textContent='CHARGING '+Math.floor(shown)+'%';
+    if(shown>=99.9&&real>=100){clearInterval(timer);ready()}
+  },40);
+  function ready(){
+    $('#lpct').textContent='ENERGY FULL · 100%';
+    $('#lenter').classList.add('on');L.classList.add('ready');
+    const enter=()=>{L.removeEventListener('pointerdown',enter);startApp();};
+    L.addEventListener('pointerdown',enter);
+  }
+  await loadData(setReal);
+  initMapImg();
+  initTiles();
+  initBGM();
+  setReal(55);
+  await Promise.all([
+    preload(MAP_URLS[0]).then(()=>setReal(70)),
+    preload(IMG.splash('Zilean',0)).then(()=>setReal(80)),
+    preload(IMG.centered('Ahri',0)).then(()=>setReal(90)),
+  ]);
+  setReal(100);
+  setTimeout(()=>setReal(100),6000);
+})();
+
+function startApp(){
+  $('#loading').classList.add('hide');
+  setTimeout(()=>$('#loading').remove(),1100);
+  playTrack(1,true);
+  renderMap();
+  renderAllViews();
+}
+
+/* ---------- 导航 ---------- */
+function go(v){
+  view=v;
+  $$('.view').forEach(e=>e.classList.toggle('on',e.id==='view-'+v));
+  $$('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+  if(v==='codex')renderCodexGrid();
+  if(v==='create')renderCreate();
+  if(v==='timeline')renderTimeline();
+  const el=$('#view-'+v); if(el) el.scrollTop=0;
+  if(v==='home')setTimeout(fitMap,60);
+}
+$('#tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(b)go(b.dataset.v)});
+document.addEventListener('click',e=>{const t=e.target.closest('[data-go]');if(t)go(t.dataset.go)});
+function renderAllViews(){renderTimeline();renderCodexShell();renderCreate()}
+function initTiles(){$$('.tile .bgi').forEach(b=>b.style.backgroundImage=`url(${DD}/cdn/img/champion/splash/${b.dataset.bg}.jpg)`)}
+
+/* ---------- 弹层 ---------- */
+function openModal(html,cls){const m=$('#modal');$('#mbox').innerHTML=`<button class="close" onclick="closeModal()">✕</button>`+html;$('#mbox').className='mbox '+(cls||'');m.classList.add('on');m.scrollTop=0}
+function closeModal(){$('#modal').classList.remove('on')}
+$('#modal').addEventListener('pointerdown',e=>{if(e.target.id==='modal')closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+
+/* =========================================================
+   世界地图
+   ========================================================= */
+const MAPS={s:1,tx:0,ty:0,W:0,H:0,pts:new Map(),moved:false};
+function initMapImg(){
+  const img=$('#mapimg');
+  img.onerror=()=>{img.style.display='none'};
+  img.src=MAP_URLS[0];
+}
+function renderMap(){
+  const st=$('#mapStage');$$('.pin,.glow',st).forEach(e=>e.remove());
+  REGIONS.filter(r=>r.x!=null).forEach(r=>{
+    const g=document.createElement('div');g.className='glow';g.style.cssText=`left:${r.x}%;top:${r.y}%;background:radial-gradient(circle,${r.c}88,transparent 68%)`;st.appendChild(g);
+    const b=document.createElement('button');b.className='pin';b.dataset.id=r.id;b.style.cssText=`left:${r.x}%;top:${r.y}%;--c:${r.c}`;
+    b.innerHTML=`<div class="face" style="background-image:url(${IMG.icon(r.face)})"></div><div class="lab">${r.n}</div>`;
+    b.addEventListener('click',e=>{if(MAPS.moved)return;openRegion(r.id)});
+    st.appendChild(b);
+  });
+  fitMap();
+}
+function fitMap(){
+  const box=$('#mapbox');const W=box.clientWidth,H=box.clientHeight;if(!W||!H)return;
+  const first=!MAPS.W; MAPS.W=W;MAPS.H=H;
+  const st=$('#mapStage');
+  const size=Math.max(W,H*1.05);
+  st.style.width=size+'px';st.style.height=size+'px';MAPS.size=size;
+  if(first||!MAPS.init){MAPS.init=true;MAPS.s=1;MAPS.tx=(W-size)/2;MAPS.ty=H/2-size*0.57}
+  applyMap();
+}
+function applyMap(){
+  const {s,size,W,H}=MAPS;const sz=size*s;
+  MAPS.tx=Math.min(0,Math.max(W-sz,MAPS.tx));MAPS.ty=Math.min(0,Math.max(H-sz,MAPS.ty));
+  const st=$('#mapStage');st.style.transform=`translate(${MAPS.tx}px,${MAPS.ty}px) scale(${s})`;st.style.setProperty('--s',s);
+}
+function zoomAt(f,cx,cy){
+  const o=MAPS.s;const n=Math.min(4,Math.max(1,o*f));if(n===o)return;
+  MAPS.tx=cx-(cx-MAPS.tx)*(n/o);MAPS.ty=cy-(cy-MAPS.ty)*(n/o);MAPS.s=n;applyMap();
+}
+(function mapEvents(){
+  const box=$('#mapbox');
+  box.addEventListener('wheel',e=>{if(e.target.closest('.rpanel'))return;e.preventDefault();const r=box.getBoundingClientRect();zoomAt(e.deltaY<0?1.18:1/1.18,e.clientX-r.left,e.clientY-r.top)},{passive:false});
+  let last=null,pd=0;
+  box.addEventListener('pointerdown',e=>{if(e.target.closest('.rpanel,.mapctl'))return;MAPS.pts.set(e.pointerId,{x:e.clientX,y:e.clientY});MAPS.moved=false;last={x:e.clientX,y:e.clientY};if(MAPS.pts.size===2){const p=[...MAPS.pts.values()];pd=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y)}});
+  window.addEventListener('pointermove',e=>{
+    if(!MAPS.pts.has(e.pointerId))return;MAPS.pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(MAPS.pts.size===2){const p=[...MAPS.pts.values()];const d=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y);if(pd){const r=box.getBoundingClientRect();zoomAt(d/pd,(p[0].x+p[1].x)/2-r.left,(p[0].y+p[1].y)/2-r.top)}pd=d;MAPS.moved=true;return}
+    const dx=e.clientX-last.x,dy=e.clientY-last.y;
+    if(Math.abs(dx)+Math.abs(dy)>3)MAPS.moved=true;
+    if(MAPS.moved){MAPS.tx+=dx;MAPS.ty+=dy;applyMap()}
+    last={x:e.clientX,y:e.clientY};
+  });
+  const up=e=>{MAPS.pts.delete(e.pointerId);pd=0;setTimeout(()=>MAPS.moved=false,60)};
+  window.addEventListener('pointerup',up);window.addEventListener('pointercancel',up);
+  $('#zin').onclick=()=>zoomAt(1.4,MAPS.W/2,MAPS.H/2);
+  $('#zout').onclick=()=>zoomAt(1/1.4,MAPS.W/2,MAPS.H/2);
+  $('#zreset').onclick=()=>{MAPS.s=1;MAPS.tx=(MAPS.W-MAPS.size)/2;MAPS.ty=MAPS.H/2-MAPS.size*0.57;applyMap();closeRegion()};
+  window.addEventListener('resize',()=>{if(view==='home')fitMap()});
+})();
+
+function champsOf(rid){return S.list.filter(c=>c.region===rid)}
+function openRegion(id){
+  const r=RMAP[id];const p=$('#rpanel');const list=champsOf(id);
+  $$('.pin').forEach(b=>b.classList.toggle('on',b.dataset.id===id));
+  p.style.setProperty('--c',r.c);
+  p.innerHTML=`<button class="x" onclick="closeRegion()">✕</button>
+    <div class="en">${r.en}</div><h2>${r.n}</h2><div class="mt">${r.mt}</div>
+    <p>${r.d}</p>
+    ${r.spots.length?`<h4>主要城邦／地点</h4><div class="chips">${r.spots.map(s=>`<span class="chip">${s}</span>`).join('')}</div>`:''}
+    <h4>常见种族</h4><div class="chips"><span class="chip">${r.race}</span></div>
+    <h4>地区英雄 · ${list.length}</h4>
+    <div class="chrow">${list.map(c=>`<button class="chav" onclick="openHero('${c.id}')"><img src="${IMG.icon(c.id)}" alt=""><span>${esc(c.name)}</span></button>`).join('')}</div>
+    <div class="btnrow"><button class="btn sm" onclick="gotoCodex('${id}')">在图鉴中查看</button><button class="btn sm gold" onclick="setOrigin('${id}')">以此为出身创建角色</button></div>`;
+  p.classList.add('on');p.scrollTop=0;
+}
+function closeRegion(){$('#rpanel').classList.remove('on');$$('.pin').forEach(b=>b.classList.remove('on'))}
+function gotoCodex(rid){S.codex.reg=rid;go('codex');renderCodexShell();renderCodexGrid()}
+function setOrigin(rid){S.cr.region=rid;go('create')}
+
+/* =========================================================
+   时间线
+   ========================================================= */
+function renderTimeline(){
+  const el=$('#view-timeline');
+  if(S.tl==null)S.tl=TIMELINE.length-1;
+  const cur=TIMELINE[S.tl];
+  el.innerHTML=`<div class="wrap">
+   <div class="vhead"><div class="big">1</div><h1>瓦罗兰大陆编年史</h1><p>CHRONICLE OF RUNETERRA</p></div>
+   <div class="tl">
+    <div class="tlrail" id="tlrail">${TIMELINE.map((n,i)=>`<button class="node ${i===S.tl?'on':''}" data-i="${i}"><div class="era">${n.era}</div><h4>${n.t}</h4><div class="av">${n.ch.slice(0,6).map(c=>`<img src="${IMG.icon(c)}" alt="">`).join('')}</div></button>`).join('')}</div>
+    <div class="tdetail" id="tdetail">${tlDetail(cur)}</div>
+   </div></div>`;
+  $('#tlrail').addEventListener('click',e=>{const b=e.target.closest('.node');if(!b)return;S.tl=+b.dataset.i;S.cr.era=TIMELINE[S.tl].era+' · '+TIMELINE[S.tl].t;$$('.node').forEach(n=>n.classList.toggle('on',n===b));$('#tdetail').innerHTML=tlDetail(TIMELINE[S.tl]);S.cr.era=TIMELINE[S.tl].era+' · '+TIMELINE[S.tl].t});
+  $('#tdetail').addEventListener('click',tlClick);
+  S.cr.era=S.cr.era||(cur.era+' · '+cur.t);
+}
+function tlDetail(n){
+  return `<div class="hero" style="background-image:url(${IMG.splash(n.bg,0)})"></div>
+   <div class="body"><div class="era">${n.era}</div><h2>${n.t}</h2><p>${n.d}</p>
+   <h4 style="font-size:12px;color:var(--gold);letter-spacing:.25em;margin-bottom:8px">相关英雄</h4>
+   <div class="chrow">${n.ch.map(c=>S.CH[c]?`<button class="chav" data-hero="${c}"><img src="${IMG.icon(c)}" alt=""><span>${esc(S.CH[c].name)}</span></button>`:'').join('')}</div>
+   <div class="dest"><h4>选择你的降生／前往之地</h4>
+    <div class="chips" id="destChips">${REGIONS.filter(r=>r.id!=='runeterra'&&r.id!=='void').map(r=>`<button class="rchip ${S.cr.region===r.id?'on':''}" style="--c:${r.c}" data-reg="${r.id}"><i></i>${r.n}${n.reg.includes(r.id)?' ★':''}</button>`).join('')}</div>
+    <div class="note">★ 为该时代与事件直接相关的地区。选择完成后即可带着“时代 + 地点”进入角色创建。</div>
+    <div class="btnrow"><button class="btn gold" id="tlGo" ${S.cr.region?'':'disabled'}>携此背景进入角色创建 ▶</button></div></div>
+   <div class="note">※ 编年为便于角色扮演而整理的大致先后顺序，年代以“远古／千年前／近代”等相对称呼表示，细节以官方设定为准。</div></div>`;
+}
+function tlClick(e){
+  const h=e.target.closest('[data-hero]');if(h){openHero(h.dataset.hero);return}
+  const r=e.target.closest('[data-reg]');
+  if(r){S.cr.region=r.dataset.reg;$$('#destChips .rchip').forEach(b=>b.classList.toggle('on',b===r));$('#tlGo').disabled=false;return}
+  if(e.target.closest('#tlGo')){const n=TIMELINE[S.tl];S.cr.era=n.era+' · '+n.t;go('create')}
+}
+
+/* =========================================================
+   英雄图鉴
+   ========================================================= */
+function renderCodexShell(){
+  const el=$('#view-codex');const C=S.codex;
+  el.innerHTML=`<div class="wrap">
+   <div class="vhead"><div class="big">2</div><h1>英雄图鉴</h1><p>CHAMPION CODEX · <span id="cxCount">${S.list.length}</span> HEROES</p></div>
+   <div class="toolbar"><div class="rtabs" id="rtabs"></div>
+     <div style="display:flex;gap:8px;flex-wrap:wrap"><select class="inp sel-sm" id="cxTag"><option value="all">全部定位</option>${Object.entries(TAGZH).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select>
+     <input class="inp" id="cxQ" style="width:200px" placeholder="搜索英雄…" value="${esc(C.q)}"></div></div>
+   <div class="grid" id="cxGrid"></div></div>`;
+  $('#cxQ').addEventListener('input',e=>{C.q=e.target.value.trim();renderCodexGrid()});
+  $('#cxTag').addEventListener('change',e=>{C.tag=e.target.value;renderCodexGrid()});
+  $('#cxTag').value=C.tag;
+  $('#rtabs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;C.reg=b.dataset.r;renderCodexGrid()});
+}
+function renderCodexGrid(){
+  const C=S.codex;if(!$('#cxGrid')){renderCodexShell()}
+  const counts={all:S.list.length};S.list.forEach(c=>counts[c.region]=(counts[c.region]||0)+1);
+  $('#rtabs').innerHTML=[{id:'all',n:'全部'},...REGIONS].filter(r=>counts[r.id]).map(r=>`<button data-r="${r.id}" class="${C.reg===r.id?'on':''}">${r.n}<small>${counts[r.id]}</small></button>`).join('');
+  const q=C.q.toLowerCase();
+  const arr=S.list.filter(c=>(C.reg==='all'||c.region===C.reg)&&(C.tag==='all'||c.tags.includes(C.tag))&&(!q||(c.name+c.title+c.id).toLowerCase().includes(q)));
+  $('#cxCount').textContent=arr.length;
+  $('#cxGrid').innerHTML=arr.length?arr.map(c=>`<button class="card" onclick="openHero('${c.id}')" style="--c:${RMAP[c.region].c}"><img class="im" loading="lazy" src="${IMG.loading(c.id,0)}" alt="${esc(c.name)}" onerror="this.onerror=null;this.src='${IMG.icon(c.id)}'"><span class="rg">${RMAP[c.region].n}</span><span class="tier ${TIERS[c.tier].c}">${c.tier}</span><div class="cap"><b>${esc(c.name)}</b><span>${esc(c.title)}</span></div></button>`).join(''):`<div class="empty">没有找到符合条件的英雄</div>`;
+}
+
+async function getDetail(id){
+  if(S.detail[id])return S.detail[id];
+  try{const j=await (await fetch(`${DD}/cdn/${VER}/data/zh_CN/champion/${id}.json`)).json();return S.detail[id]=j.data[id]}catch(e){return null}
+}
+async function openHero(id,skinNum=0){
+  const c=S.CH[id];if(!c)return;
+  openModal(`<div class="empty">载入 ${esc(c.name)} …</div>`);
+  const d=await getDetail(id);const skins=d?.skins||[{num:0,name:'default'}];
+  const R=RMAP[c.region],race=RACES[c.race],T=TIERS[c.tier],i=c.info||{},st=c.stats||{};
+  const lore=strip(d?.lore||c.blurb);
+  const sp=d?[{k:'P',n:d.passive.name,t:d.passive.description,img:IMG.passive(d.passive.image.full)},...d.spells.map((s,x)=>({k:'QWER'[x],n:s.name,t:s.description,img:IMG.spell(s.image.full)}))]:[];
+  const bar=(l,v)=>`<div class="r"><span>${l}</span><i><b style="width:${v*10}%"></b></i><em>${v}</em></div>`;
+  openModal(`<div class="hd">
+    <div class="art"><img class="main" id="hdImg" src="${IMG.splash(id,skins[0].num)}" alt="${esc(c.name)}"><div class="skname" id="skname">${esc(skins[0].name==='default'?c.name+' · 原画':skins[0].name)}</div>
+      <div class="skins">${skins.map((s,x)=>`<button class="${x===0?'on':''}" data-n="${s.num}" data-x="${x}" title="${esc(s.name==='default'?'原画':s.name)}" style="background-image:url(${IMG.loading(id,s.num)})"></button>`).join('')}</div></div>
+    <div class="info"><h2>${esc(c.name)}</h2><div class="tt">${esc(c.title)}</div>
+      <div class="kv"><div><small>地区</small><b>${R.n}</b></div><div><small>种族出身</small><b>${race.n}</b></div><div><small>实力水平</small><b class="${T.c}">${c.tier} · ${T.n}</b></div>
+       <div><small>定位</small><b>${c.tags.map(t=>TAGZH[t]||t).join(' / ')||'—'}</b></div><div><small>能量</small><b>${esc(c.partype||'—')}</b></div><div><small>生命 / 移速</small><b>${st.hp||'—'} / ${st.movespeed||'—'}</b></div></div>
+      <div class="bars">${bar('攻击',i.attack||0)}${bar('防御',i.defense||0)}${bar('法术',i.magic||0)}${bar('难度',i.difficulty||0)}</div>
+      <div class="lore">${esc(lore)}</div>
+      ${sp.length?`<div class="spells">${sp.map((s,x)=>`<button class="${x===0?'on':''}" data-x="${x}"><img src="${s.img}" alt=""><em>${s.k}</em></button>`).join('')}</div><div class="sdesc" id="sdesc"><b>${esc(sp[0].n)}</b><br>${esc(strip(sp[0].t))}</div>`:''}
+      <div class="btnrow"><button class="btn gold" id="hdUse">以此立绘创建角色</button><button class="btn" id="hdReg">查看 ${R.n}</button></div>
+      <div class="note">实力水平为社区设定评估（非官方）；数据与图片来自 Riot 官方 Data Dragon（v${VER}）。</div>
+    </div></div>`,'');
+  let cur=0;
+  $('.skins').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;cur=+b.dataset.x;$$('.skins button').forEach(x=>x.classList.toggle('on',x===b));const im=$('#hdImg');im.src=IMG.splash(id,b.dataset.n);const s=skins[cur];$('#skname').textContent=s.name==='default'?c.name+' · 原画':s.name});
+  const sps=$('.spells');if(sps)sps.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;$$('.spells button').forEach(x=>x.classList.toggle('on',x===b));const s=sp[+b.dataset.x];$('#sdesc').innerHTML=`<b>${esc(s.n)}</b><br>${esc(strip(s.t))}`});
+  $('#hdUse').onclick=()=>{S.cr.champ=id;S.cr.skin=skins[cur].num;S.cr.race=S.cr.race||c.race;if(!S.cr.region)S.cr.region=c.region;closeModal();go('create')};
+  $('#hdReg').onclick=()=>{closeModal();gotoCodex(c.region)};
+}
+
+/* =========================================================
+   角色创建
+   ========================================================= */
+function crDone(){
+  const c=S.cr;
+  const checks=[!!c.name.trim(),!!c.gender,!!String(c.age).trim(),!!c.race,(c.traits.length||c.trait2.trim())?true:false,!!(c.region||c.origin.trim()),c.picked.length===2];
+  return {n:checks.filter(Boolean).length,t:checks.length,checks};
+}
+function crAttrs(){
+  const c=S.cr;const a=Object.fromEntries(ATTRS.map(k=>[k,10]));
+  if(c.race){const b=RACES[c.race].bn;Object.entries(b).forEach(([k,v])=>a[k]+=v)}
+  c.picked.forEach(i=>{const t=c.rolled[i];if(t)Object.entries(t[3]).forEach(([k,v])=>a[k]+=v)});
+  return a;
+}
+function renderCreate(){
+  const el=$('#view-create');const c=S.cr;
+  if(!c.rolled.length)rollTalents(true);
+  const ch=S.CH[c.champ]||S.list[0];
+  el.innerHTML=`<div class="wrap">
+   <div class="vhead"><div class="big">3</div><h1>角色创建</h1><p>CHARACTER CRAFTER · 写下属于你的传说</p></div>
+   <div class="cr">
+    <div id="crL">
+      <div class="fgroup"><label>姓名 NAME</label><div style="display:flex;gap:6px"><input class="inp" id="fName" maxlength="24" placeholder="你的名字…"><button class="btn sm" id="dice" title="随机取名">🎲</button></div></div>
+      <div class="row2"><div class="fgroup"><label>性别 GENDER</label><div class="seg" id="fGender">${['男','女','其他'].map(g=>`<button data-v="${g}">${g}</button>`).join('')}</div></div>
+      <div class="fgroup"><label>年龄 AGE</label><input class="inp" id="fAge" maxlength="12" placeholder="例如 24 / 不详"></div></div>
+      <div class="fgroup"><label>种族 RACE</label><button class="racebtn" id="fRace"></button></div>
+      <div class="fgroup"><label>核心性格 PERSONALITY<em>（最多 3 个）</em></label><div class="seg" id="fTraits">${TRAITS.map(t=>`<button data-v="${t}">${t}</button>`).join('')}</div><input class="inp" id="fTrait2" style="margin-top:8px" maxlength="30" placeholder="自定义性格…"></div>
+    </div>
+
+    <div class="avatar" id="crM"></div>
+
+    <div id="crR">
+      <div class="fgroup"><label>背景出身 BACKGROUND</label>
+        <select class="inp" id="fReg"><option value="">— 选择出生地区 —</option>${REGIONS.map(r=>`<option value="${r.id}">${r.n}</option>`).join('')}</select>
+        <input class="inp" id="fEra" style="margin-top:8px" placeholder="所处时代（可在时间线中选择）">
+        <textarea class="inp" id="fOrigin" style="margin-top:8px" placeholder="写下你的出身与过往：家庭、遭遇、动机…"></textarea>
+        <div class="btnrow" style="margin-top:8px"><button class="btn sm" data-go="timeline">⏳ 去时间线选择</button><button class="btn sm" id="mapPick">🗺 地图选址</button></div></div>
+      <div class="fgroup"><label>特殊设定 SPECIAL<em>（个人能力与持有的装备道具）</em></label>
+        <textarea class="inp" id="fSpecial" placeholder="例如：能与星灵低语；祖传的符文短剑；一只会说话的魔法猫…"></textarea>
+        <div class="itemsel" id="fItems" style="margin-top:8px"></div></div>
+      <div class="fgroup attrs"><label>属性 ATTRIBUTES</label><div id="fAttrs"></div></div>
+    </div>
+   </div>
+   <div class="talents"><div class="th"><div><h3>ROLL 天赋 · 十选二</h3><div class="note" style="margin:4px 0 0">抽取 10 个天赋，选择其中 2 个。每次重抽会刷新全部天赋。</div></div>
+     <div class="btnrow" style="margin:0"><button class="btn sm" id="reroll">🎲 重新 ROLL（剩余 <span id="rrN">${c.rerolls}</span>）</button><span id="pickedN" class="chip">已选 0 / 2</span></div></div>
+     <div class="tgrid" id="tgrid"></div></div>
+  </div>`;
+  // 回填
+  $('#fName').value=c.name;$('#fAge').value=c.age;$('#fTrait2').value=c.trait2;$('#fReg').value=c.region;$('#fEra').value=c.era;$('#fOrigin').value=c.origin;$('#fSpecial').value=c.special;
+  bindCreate();refreshCreate();renderAvatar();renderTalents();
+}
+function bindCreate(){
+  const c=S.cr;
+  $('#fName').oninput=e=>{c.name=e.target.value;refreshCreate()};
+  $('#fAge').oninput=e=>{c.age=e.target.value;refreshCreate()};
+  $('#fTrait2').oninput=e=>{c.trait2=e.target.value;refreshCreate()};
+  $('#fEra').oninput=e=>{c.era=e.target.value};
+  $('#fOrigin').oninput=e=>{c.origin=e.target.value;refreshCreate()};
+  $('#fSpecial').oninput=e=>{c.special=e.target.value};
+  $('#fReg').onchange=e=>{c.region=e.target.value;refreshCreate()};
+  $('#dice').onclick=()=>{c.name=pick(NAMES[c.region||'runeterra']);$('#fName').value=c.name;refreshCreate()};
+  $('#fGender').onclick=e=>{const b=e.target.closest('button');if(!b)return;c.gender=b.dataset.v;refreshCreate()};
+  $('#fTraits').onclick=e=>{const b=e.target.closest('button');if(!b)return;const v=b.dataset.v;const i=c.traits.indexOf(v);if(i>=0)c.traits.splice(i,1);else if(c.traits.length<3)c.traits.push(v);else toast('最多选择 3 个核心性格');refreshCreate()};
+  $('#fRace').onclick=openRaces;
+  $('#mapPick').onclick=()=>{go('home')};
+  $('#reroll').onclick=()=>{if(c.rerolls<=0)return toast('重抽次数已用完');c.rerolls--;rollTalents(true);$('#rrN').textContent=c.rerolls;renderTalents();refreshCreate()};
+}
+function refreshCreate(){
+  const c=S.cr,d=crDone();
+  $$('#fGender button').forEach(b=>b.classList.toggle('on',b.dataset.v===c.gender));
+  $$('#fTraits button').forEach(b=>b.classList.toggle('on',c.traits.includes(b.dataset.v)));
+  const rb=$('#fRace');
+  if(c.race){const r=RACES[c.race];rb.className='racebtn';rb.innerHTML=`<img src="${IMG.icon(r.ex)}" alt=""><div><b style="font-family:var(--serif)">${r.n}</b><small>${r.en} · 代表：${S.CH[r.ex]?.name||r.ex}</small></div>`}
+  else{rb.className='racebtn empty';rb.textContent='＋ 选择种族'}
+  const a=crAttrs();
+  $('#fAttrs').innerHTML=ATTRS.map(k=>`<div class="r"><span>${k}</span><i><b style="width:${Math.min(100,Math.max(0,a[k]*4))}%"></b></i><em>${a[k]}</em></div>`).join('');
+  // 物品
+  $('#fItems').innerHTML=c.items.map((id,i)=>`<button class="it" title="点击移除" data-i="${i}"><img src="${IMG.item(id)}" alt=""></button>`).join('')+(c.items.length<6?`<button class="it add" id="addItem" title="添加装备">＋</button>`:'');
+  $('#fItems').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.id==='addItem')openItems();else{c.items.splice(+b.dataset.i,1);refreshCreate()}};
+  // 头像框
+  const f=$('#hexFrame');if(f){f.classList.toggle('done',d.n===d.t);$('#ringProg').style.strokeDashoffset=String(1068*(1-d.n/d.t)*0.78+1068*0.22);
+    $('#pct').textContent=`精粹充能 ${Math.round(d.n/d.t*100)}%  ·  ${d.n} / ${d.t}`;const u=$('#upg');u.classList.toggle('on',d.n===d.t);u.disabled=d.n!==d.t;
+    $('#avName').textContent=c.name||'— 未命名 —';
+    $('#avSub').textContent=[c.gender,c.age?c.age+'岁':'',c.race?RACES[c.race].n:'',c.region?RMAP[c.region].n:''].filter(Boolean).join(' · ')||'等待填写';}
+  if(c.picked) $('#pickedN') && ($('#pickedN').textContent=`已选 ${c.picked.length} / 2`);
+}
+function renderAvatar(){
+  const c=S.cr,m=$('#crM'),ch=S.CH[c.champ];
+  m.innerHTML=`<div class="hexframe" id="hexFrame">
+    <svg viewBox="0 0 400 400"><defs><linearGradient id="gg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0e6d2"/><stop offset=".5" stop-color="#c8aa6e"/><stop offset="1" stop-color="#785a28"/></linearGradient>
+      <linearGradient id="tg" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#0397ab"/><stop offset="1" stop-color="#0ac8b9"/></linearGradient></defs>
+      <circle cx="200" cy="200" r="195" fill="#050b17" stroke="url(#gg)" stroke-width="5"/>
+      <circle cx="200" cy="200" r="186" fill="none" stroke="#463714" stroke-width="2"/>
+      <circle cx="200" cy="200" r="170" fill="none" stroke="#0a2a3a" stroke-width="14"/>
+      <circle id="ringProg" cx="200" cy="200" r="170" fill="none" stroke="url(#tg)" stroke-width="14" stroke-linecap="butt" stroke-dasharray="1068" stroke-dashoffset="1068" transform="rotate(-90 200 200)" style="transition:stroke-dashoffset .8s;filter:drop-shadow(0 0 6px #0ac8b9)"/>
+      <circle cx="200" cy="200" r="158" fill="none" stroke="url(#gg)" stroke-width="3"/>
+      <path d="M200 -8 L222 14 L200 36 L178 14 Z" fill="#091428" stroke="url(#gg)" stroke-width="3"/><path d="M200 8 L211 18 L200 29 L189 18Z" fill="url(#gg)"/>
+      <path d="M135 6 L200 40 L265 6" fill="none" stroke="url(#gg)" stroke-width="3"/>
+    </svg>
+    <div class="face"><img id="avImg" src="${IMG.centered(c.champ,c.skin)}" alt="" onerror="this.onerror=null;this.src='${IMG.loading(c.champ,c.skin)}'"></div>
+    <button class="arrow l" id="avPrev">‹</button><button class="arrow r" id="avNext">›</button>
+    <button class="upgrade" id="upg" disabled>完成创建</button></div>
+   <div class="avname" id="avName"></div><div class="avsub" id="avSub"></div>
+   <div class="pct" id="pct"></div>
+   <div class="avctl"><button class="btn sm" id="avPick">🖼 选择立绘</button><button class="btn sm" id="avSkin">换肤 ▸</button><button class="btn sm" id="avRand">🎲 随机</button></div>
+   <div class="note" id="avInfo" style="margin-top:10px">立绘：${esc(ch?.name||c.champ)}（${esc(ch?.title||'')}）</div>`;
+  $('#avPrev').onclick=()=>stepChamp(-1);$('#avNext').onclick=()=>stepChamp(1);
+  $('#avPick').onclick=openChampPicker;$('#avRand').onclick=()=>{S.cr.champ=pick(S.list).id;S.cr.skin=0;renderAvatar();refreshCreate()};
+  $('#avSkin').onclick=async()=>{const d=await getDetail(S.cr.champ);const sk=d?.skins||[{num:0}];const i=sk.findIndex(s=>s.num===S.cr.skin);S.cr.skin=sk[(i+1)%sk.length].num;renderAvatar();refreshCreate()};
+  $('#upg').onclick=showCard;
+}
+function stepChamp(d){const i=S.list.findIndex(c=>c.id===S.cr.champ);S.cr.champ=S.list[(i+d+S.list.length)%S.list.length].id;S.cr.skin=0;renderAvatar();refreshCreate()}
+function openChampPicker(){
+  openModal(`<div class="mhead"><h3>选择立绘</h3></div><div class="mbody"><input class="inp" id="cpQ" placeholder="搜索英雄…" style="margin-bottom:12px"><div class="picker" id="cpG"></div></div>`);
+  const draw=()=>{const q=$('#cpQ').value.trim().toLowerCase();$('#cpG').innerHTML=S.list.filter(c=>!q||(c.name+c.title+c.id).toLowerCase().includes(q)).map(c=>`<button data-id="${c.id}" title="${esc(c.name)}"><img loading="lazy" src="${IMG.icon(c.id)}" alt=""></button>`).join('')};
+  draw();$('#cpQ').oninput=draw;
+  $('#cpG').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.cr.champ=b.dataset.id;S.cr.skin=0;closeModal();renderAvatar();refreshCreate()};
+}
+function openRaces(){
+  openModal(`<div class="mhead"><h3>选择种族</h3><div class="note" style="margin:4px 0 0">括号中为该种族的代表英雄，选择会带来属性加成。</div></div>
+   <div class="mbody"><div class="races">${Object.entries(RACES).map(([k,r])=>`<button class="rcard" data-k="${k}"><img src="${IMG.icon(r.ex)}" alt=""><div><b>${r.n}（${S.CH[r.ex]?.name||r.ex}）</b><small>${r.en}</small><p>${r.d}</p><div class="bn">${Object.entries(r.bn).map(([a,v])=>a+(v>0?'+':'')+v).join('  ')}　|　${r.ab}</div></div></button>`).join('')}</div></div>`);
+  $('.races').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.cr.race=b.dataset.k;closeModal();refreshCreate()};
+}
+async function openItems(){
+  openModal(`<div class="mhead"><h3>选择装备道具</h3><div class="note" style="margin:4px 0 0">图标来自官方 Data Dragon，最多 6 件。</div></div><div class="mbody"><input class="inp" id="itQ" placeholder="搜索装备…" style="margin-bottom:12px"><div class="picker" id="itG"><div class="empty">载入中…</div></div></div>`);
+  if(!S.items){try{const j=await (await fetch(`${DD}/cdn/${VER}/data/zh_CN/item.json`)).json();S.items=Object.entries(j.data).filter(([id,it])=>it.gold?.purchasable&&it.maps?.['11']&&!it.into&&it.gold.total>=1000&&!(it.consumed)).map(([id,it])=>({id,name:it.name,desc:strip(it.plaintext||'')}))}catch(e){S.items=[]}}
+  const draw=()=>{const q=$('#itQ').value.trim();$('#itG').innerHTML=S.items.filter(i=>!q||i.name.includes(q)).map(i=>`<button data-id="${i.id}" title="${esc(i.name)}"><img loading="lazy" src="${IMG.item(i.id)}" alt=""></button>`).join('')||'<div class="empty">无结果</div>'};
+  draw();$('#itQ').oninput=draw;
+  $('#itG').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(S.cr.items.length>=6)return toast('最多 6 件');if(!S.cr.items.includes(b.dataset.id))S.cr.items.push(b.dataset.id);closeModal();refreshCreate()};
+}
+function rollTalents(reset){
+  const c=S.cr;const pool=[...TALENTS];const out=[];
+  const total=Object.values(QUAL).reduce((a,q)=>a+q.w,0);
+  while(out.length<10&&pool.length){
+    let r=Math.random()*total,key='w';for(const [k,q] of Object.entries(QUAL)){r-=q.w;if(r<=0){key=k;break}}
+    const cand=pool.filter(t=>t[0]===key);const t=cand.length?pick(cand):pick(pool);
+    pool.splice(pool.indexOf(t),1);out.push(t);
+  }
+  const order='rgpbw';out.sort((a,b)=>order.indexOf(a[0])-order.indexOf(b[0]));
+  c.rolled=out;if(reset)c.picked=[];
+}
+function renderTalents(){
+  const c=S.cr;
+  $('#tgrid').innerHTML=c.rolled.map((t,i)=>{const q=QUAL[t[0]];return `<button class="tcard ${c.picked.includes(i)?'sel':''}" data-i="${i}" style="--q:${q.c};animation-delay:${i*50}ms"><div class="q">${q.n.toUpperCase()}</div><h4>${t[1]}</h4><p>${t[2]}</p><div class="at">${Object.entries(t[3]).filter(([,v])=>v).map(([k,v])=>k+(v>0?'+':'')+v).join('　')}</div></button>`}).join('');
+  $('#tgrid').onclick=e=>{const b=e.target.closest('.tcard');if(!b)return;const i=+b.dataset.i;const p=c.picked.indexOf(i);if(p>=0)c.picked.splice(p,1);else if(c.picked.length<2)c.picked.push(i);else{c.picked.shift();c.picked.push(i)}renderTalents();refreshCreate()};
+}
+function cardText(){
+  const c=S.cr,a=crAttrs(),ch=S.CH[c.champ];
+  const tal=c.picked.map(i=>c.rolled[i]).map(t=>`【${QUAL[t[0]].n}】${t[1]}：${t[2]}`).join('\n');
+  const items=c.items.map(id=>(S.items||[]).find(i=>i.id===id)?.name||('装备#'+id)).join('、');
+  return `【英雄联盟 · 角色卡】\n姓名：${c.name}\n性别：${c.gender}\n年龄：${c.age}\n种族：${RACES[c.race].n}（${RACES[c.race].en}）\n核心性格：${[...c.traits,c.trait2.trim()].filter(Boolean).join('、')}\n出生地：${c.region?RMAP[c.region].n:'—'}\n时代：${c.era||'—'}\n背景出身：${c.origin||'—'}\n特殊设定：${c.special||'—'}${items?'\n装备道具：'+items:''}\n天赋：\n${tal}\n属性：${ATTRS.map(k=>k+a[k]).join(' ')}\n立绘：${ch?.name||c.champ}`;
+}
+function showCard(){
+  const c=S.cr,a=crAttrs(),ch=S.CH[c.champ];
+  openModal(`<div class="mhead"><h3 class="gold-text">角色创建完成</h3></div>
+   <div class="cardsheet"><div><div class="portrait" style="background-image:url(${IMG.splash(c.champ,c.skin)})"></div><div class="note" style="text-align:center">立绘：${esc(ch?.name||'')}</div></div>
+   <div><dl><dt>姓名</dt><dd>${esc(c.name)}</dd><dt>性别 / 年龄</dt><dd>${esc(c.gender)} / ${esc(c.age)}</dd><dt>种族</dt><dd>${RACES[c.race].n}（${RACES[c.race].en}）</dd>
+   <dt>核心性格</dt><dd>${esc([...c.traits,c.trait2.trim()].filter(Boolean).join('、'))}</dd><dt>出生地 / 时代</dt><dd>${c.region?RMAP[c.region].n:'—'} · ${esc(c.era||'—')}</dd>
+   <dt>背景出身</dt><dd>${esc(c.origin||'—')}</dd><dt>特殊设定</dt><dd>${esc(c.special||'—')}</dd>
+   <dt>装备道具</dt><dd>${c.items.length?c.items.map(id=>`<img src="${IMG.item(id)}" style="display:inline-block;width:34px;height:34px;margin-right:4px;border:1px solid var(--gold2)">`).join(''):'—'}</dd>
+   <dt>天赋</dt><dd>${c.picked.map(i=>c.rolled[i]).map(t=>`<span style="color:${QUAL[t[0]].c}">【${QUAL[t[0]].n}】${t[1]}</span> — ${t[2]}`).join('\n')}</dd>
+   <dt>属性</dt><dd>${ATTRS.map(k=>k+' '+a[k]).join('　')}</dd></dl>
+   <div class="btnrow"><button class="btn gold" id="cpy">复制角色卡文本</button><button class="btn" onclick="closeModal()">返回修改</button></div></div></div>`);
+  $('#cpy').onclick=()=>{const t=cardText();(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('已复制角色卡'),()=>{const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('已复制角色卡')})};
+}
+
+/* =========================================================
+   BGM（联盟音乐，前端可听）
+   ========================================================= */
+const PLAY=[
+ {id:506196018,t:'Legends Never Die',a:'Against the Current · 2017 全球总决赛',c:'https://p1.music.126.net/XadmwVrMvDDdPr_Wve0dCw==/109951170930231334.jpg'},
+ {id:1342123502,t:'Awaken',a:'Valerie Broussard · 陈锐 · 《英雄联盟》',c:'https://p2.music.126.net/vg2UUGAS69U8szAaOk8kbA==/109951163817963892.jpg'},
+ {id:1321385655,t:'POP/STARS',a:'K/DA · 虚拟女团',c:'https://p2.music.126.net/CaFZORZOOdE3acaCqMxn2Q==/109951163861068723.jpg'},
+ {id:1396151812,t:'Phoenix',a:'Cailin Russo · Chrissy Costanza · 2019 全球总决赛',c:'https://p2.music.126.net/RQGcPa-M0yPhsBFdlezkXQ==/109951170930155943.jpg'},
+ {id:1885486806,t:'Burn It All Down',a:'PVRIS · 2021 全球总决赛',c:'https://p2.music.126.net/b7_Edu-294uLLfkRN4CljA==/109951171796462145.jpg'},
+ {id:30431011,t:'Demacia Rising',a:'The Music of League of Legends Vol.1',c:'https://p2.music.126.net/0NLtfU0yyKS_IkZ7bbnUCg==/109951170930220320.jpg'},
+ {id:27965044,t:'Get Jinxed',a:'Agnete Kjølsund · 金克丝',c:'https://p2.music.126.net/WnIUC8osJ0-LLnhmAgEXvg==/109951163573450614.jpg'},
+ {id:1313104081,t:'RISE (Instrumental)',a:'The Glitch Mob · Mako · 2018 全球总决赛',c:'https://p2.music.126.net/I9y4Arpr2Dx7EQ1QS4DqBA==/109951171797238435.jpg'}
+];
+let cur=-1;const AU=$('#bgm');
+const cover=u=>u+'?param=400y400';
+function initBGM(){
+  $('#bgmListBox').innerHTML=PLAY.map((p,i)=>`<div data-i="${i}"><img src="${cover(p.c)}" alt="" loading="lazy" referrerpolicy="no-referrer"><span><b>${esc(p.t)}</b><small>${esc(p.a)}</small></span></div>`).join('');
+  $('#bgmListBox').onclick=e=>{const d=e.target.closest('[data-i]');if(d){playTrack(+d.dataset.i,true);$('#bgmListBox').classList.remove('on')}};
+  $('#bgmList').onclick=()=>$('#bgmListBox').classList.toggle('on');
+  const pp=()=>{if(cur<0)playTrack(1,true);else if(AU.paused)AU.play().catch(()=>{});else AU.pause()};
+  $('#bgmPP').onclick=pp;$('#miniPP').onclick=pp;
+  const nx=()=>playTrack((cur+1)%PLAY.length,true),pv=()=>playTrack((cur-1+PLAY.length)%PLAY.length,true);
+  $('#bgmNext').onclick=nx;$('#miniNext').onclick=nx;$('#bgmPrev').onclick=pv;
+  $('#bgmProg').onclick=e=>{if(AU.duration){const r=e.currentTarget.getBoundingClientRect();AU.currentTime=AU.duration*(e.clientX-r.left)/r.width}};
+  $('#bgmVol').onclick=()=>{AU.muted=!AU.muted;$('#bgmVol').textContent=AU.muted?'🔇':'🔊'};
+  AU.volume=.7;
+  AU.addEventListener('play',syncUI);AU.addEventListener('pause',syncUI);
+  AU.addEventListener('ended',nx);
+  AU.addEventListener('timeupdate',()=>{if(AU.duration)$('#bgmBar').style.width=(AU.currentTime/AU.duration*100)+'%'});
+  AU.addEventListener('error',()=>{if(cur>=0){toast('这首歌暂时无法播放，已切换下一首');setTimeout(nx,600)}});
+  $('#bgmTtl').textContent=PLAY[1].t;$('#bgmArt').textContent=PLAY[1].a;$('#bgmCover').style.backgroundImage=`url(${cover(PLAY[1].c)})`;$('#bgmDisc').style.backgroundImage=`url(${cover(PLAY[1].c)})`;$('#miniNm').textContent='♪ '+PLAY[1].t;
+}
+function playTrack(i,play){
+  cur=i;const p=PLAY[i];
+  AU.src=`https://music.163.com/song/media/outer/url?id=${p.id}.mp3`;
+  $('#bgmTtl').textContent=p.t;$('#bgmArt').textContent=p.a;$('#miniNm').textContent='♪ '+p.t;
+  $('#bgmCover').style.backgroundImage=`url(${cover(p.c)})`;$('#bgmDisc').style.backgroundImage=`url(${cover(p.c)})`;
+  $$('#bgmListBox [data-i]').forEach(d=>d.classList.toggle('cur',+d.dataset.i===i));
+  if(play)AU.play().catch(()=>{});
+}
+function syncUI(){const pl=!AU.paused;$('#bgmPP').textContent=pl?'⏸':'▶';$('#miniPP').textContent=pl?'⏸':'▶';$('#bgmTile').classList.toggle('playing',pl)}
+window.addEventListener('resize',()=>{if(view==='home')fitMap()});
+</script>
+</body>
+</html>
