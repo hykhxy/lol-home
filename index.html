@@ -282,6 +282,15 @@ select.inp{appearance:auto}
 .upgrade.on::after{background:linear-gradient(#f0e6d2,#c8aa6e)}
 .upgrade[disabled]{opacity:.8;cursor:not-allowed}
 @keyframes glow{to{filter:drop-shadow(0 0 12px rgba(240,230,210,.9))}}
+.avsrc{margin:16px auto 0;max-width:400px;text-align:left;padding:12px 12px 14px;border:1px solid var(--gold2);background:linear-gradient(160deg,rgba(14,32,54,.85),rgba(5,14,26,.9));position:relative}
+.avsrc::before{content:"";position:absolute;left:-1px;top:-1px;width:14px;height:14px;border-left:2px solid var(--gold);border-top:2px solid var(--gold)}
+.avsrc-h{font-size:11px;letter-spacing:.24em;color:var(--gold);margin-bottom:8px}
+.avsrc .seg{margin-bottom:10px}.avsrc .seg button{flex:1;padding:7px 6px;font-size:12px}
+.avdrop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:78px;border:2px dashed var(--gold2);color:var(--gold);cursor:pointer;text-align:center;font-size:13px;transition:.2s}
+.avdrop:hover,.avdrop.on{border-color:var(--teal);color:#fff;background:rgba(10,200,185,.08)}
+.avdrop b{font-size:22px;line-height:1}.avdrop small{color:#7d7a6f;font-size:11px}
+.avmsg{min-height:18px;margin:6px 0 2px;font-size:12px;color:#8f8b7e}.avmsg.ok{color:#4be28e}.avmsg.er{color:#ff7a7e}
+.avsrc .inp{margin-top:6px;font-size:12.5px}.avsrc .btnrow{margin-top:8px}
 .avname{margin:34px 0 4px;font-family:var(--serif);font-size:20px;color:var(--gold3)}
 .avsub{font-size:12px;color:var(--gold);letter-spacing:.14em}
 .avctl{display:flex;justify-content:center;gap:8px;margin-top:12px;flex-wrap:wrap}
@@ -637,7 +646,8 @@ const NAMES={freljord:['艾尔瓦','托尔格','雷娜','布罗姆'],demacia:['�
 
 /* ---------- 全局状态 ---------- */
 const S={CH:{},list:[],detail:{},items:null,tl:null,codex:{reg:'all',q:'',tag:'all'},
- cr:{champ:'Ahri',skin:0,name:'',gender:'',age:'',race:'',traits:[],trait2:'',region:'',era:'',origin:'',special:'',items:[],rolled:[],picked:[],rerolls:3}};
+ cr:{champ:'Ahri',skin:0,name:'',gender:'',age:'',race:'',traits:[],trait2:'',region:'',era:'',origin:'',special:'',items:[],rolled:[],picked:[],rerolls:3,avMode:'champ',avUrl:'',avDraft:'',avMsg:''}};
+try{const sv=JSON.parse(localStorage.getItem('lol-cr-avatar')||'null');if(sv&&/^https?:\/\//.test(sv.url)){S.cr.avUrl=sv.url;S.cr.avDraft=sv.url;S.cr.avMode=sv.mode||'link'}}catch(e){}
 let view='home';
 
 /* ---------- 数据加载 ---------- */
@@ -998,17 +1008,69 @@ function renderAvatar(){
       <path d="M200 -8 L222 14 L200 36 L178 14 Z" fill="#091428" stroke="url(#gg)" stroke-width="3"/><path d="M200 8 L211 18 L200 29 L189 18Z" fill="url(#gg)"/>
       <path d="M135 6 L200 40 L265 6" fill="none" stroke="url(#gg)" stroke-width="3"/>
     </svg>
-    <div class="face"><img id="avImg" src="${IMG.centered(c.champ,c.skin)}" alt="" onerror="this.onerror=null;this.src='${IMG.loading(c.champ,c.skin)}'"></div>
+    <div class="face"><img id="avImg" src="${c.avUrl?esc(c.avUrl):IMG.centered(c.champ,c.skin)}" alt="" onerror="this.onerror=null;this.src='${IMG.loading(c.champ,c.skin)}'"></div>
     <button class="arrow l" id="avPrev">‹</button><button class="arrow r" id="avNext">›</button>
     <button class="upgrade" id="upg" disabled>完成创建</button></div>
    <div class="avname" id="avName"></div><div class="avsub" id="avSub"></div>
    <div class="pct" id="pct"></div>
    <div class="avctl"><button class="btn sm" id="avPick">🖼 选择立绘</button><button class="btn sm" id="avSkin">换肤 ▸</button><button class="btn sm" id="avRand">🎲 随机</button></div>
-   <div class="note" id="avInfo" style="margin-top:10px">立绘：${esc(ch?.name||c.champ)}（${esc(ch?.title||'')}）</div>`;
+   <div class="note" id="avInfo" style="margin-top:10px">${c.avUrl?'头像：自定义图片（已应用）':`立绘：${esc(ch?.name||c.champ)}（${esc(ch?.title||'')}）`}</div>
+   <div class="avsrc" id="avSrc"><div class="avsrc-h">头像来源 AVATAR SOURCE</div>
+     <div class="seg" id="avMode">${[['champ','英雄立绘'],['up','本地上传'],['link','填写外链']].map(([k,t])=>`<button data-m="${k}" class="${c.avMode===k?'on':''}">${t}</button>`).join('')}</div>
+     <div id="avBox"></div></div>`;
+  renderAvSrc();
   $('#avPrev').onclick=()=>stepChamp(-1);$('#avNext').onclick=()=>stepChamp(1);
+  $('#avMode').onclick=e=>{const b=e.target.closest('button');if(!b)return;const m=b.dataset.m;
+    if(m==='champ'){c.avMode='champ';if(c.avUrl){c.avUrl='';c.avMsg='';try{localStorage.removeItem('lol-cr-avatar')}catch(e){}}renderAvatar();refreshCreate()}
+    else{c.avMode=m;c.avMsg='';renderAvSrc()}};
   $('#avPick').onclick=openChampPicker;$('#avRand').onclick=()=>{S.cr.champ=pick(S.list).id;S.cr.skin=0;renderAvatar();refreshCreate()};
   $('#avSkin').onclick=async()=>{const d=await getDetail(S.cr.champ);const sk=d?.skins||[{num:0}];const i=sk.findIndex(s=>s.num===S.cr.skin);S.cr.skin=sk[(i+1)%sk.length].num;renderAvatar();refreshCreate()};
   $('#upg').onclick=showCard;
+}
+/* ---------- 头像来源：英雄立绘 / 本地上传 / 外链 ---------- */
+function avSay(t,k){const e=$('#avMsg');if(e){e.textContent=t;e.className='avmsg'+(k?' '+k:'')}S.cr.avMsg=t}
+function avCmd(){return '【换头像|'+(S.cr.name||'名字')+'|'+S.cr.avUrl+'】'}
+function avCopy(t){const ok=()=>toast('已复制，回聊天粘贴发送即可');(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(ok,()=>{const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();ok()})}
+function avSquash(file){return new Promise((res,rej)=>{const im=new Image(),u=URL.createObjectURL(file);
+  im.onload=()=>{const s=Math.min(im.width,im.height),S2=Math.min(512,s),cv=document.createElement('canvas');cv.width=cv.height=S2;
+    cv.getContext('2d').drawImage(im,(im.width-s)/2,(im.height-s)*0.3,s,s,0,0,S2,S2);URL.revokeObjectURL(u);
+    cv.toBlob(b=>b?res(b):rej(new Error('压缩失败')),'image/png')};
+  im.onerror=()=>rej(new Error('读不了这张图片'));im.src=u})}
+async function avImgur(b){const f=new FormData();f.append('image',b);const r=await fetch('https://api.imgur.com/3/image',{method:'POST',headers:{Authorization:'Client-ID 546c25a59c58ad7'},body:f});const j=await r.json();if(!j.success)throw new Error('imgur');return j.data.link}
+async function avLitter(b){const f=new FormData();f.append('reqtype','fileupload');f.append('time','72h');f.append('fileToUpload',b,'a.png');const r=await fetch('https://litterbox.catbox.moe/resources/internals/api.php',{method:'POST',body:f});const t=(await r.text()).trim();if(!/^https:/.test(t))throw new Error('litterbox');return t}
+async function avUpload(file){
+  if(!file||!/^image\//.test(file.type))return avSay('请选择图片文件','er');
+  avSay('压缩中…');let blob;try{blob=await avSquash(file)}catch(e){return avSay(e.message,'er')}
+  avSay('上传到公开图床…（几秒）');let link='',note='';
+  try{link=await avImgur(blob);note='已上传到 imgur，永久链接'}catch(e){try{link=await avLitter(blob);note='imgur 不可用，已上传到 litterbox（72 小时有效）'}catch(e2){}}
+  if(!link)return avSay('图床都连不上：请换个网络，或切到「填写外链」粘贴你自己的图片链接','er');
+  S.cr.avDraft=link;const i=$('#avLink');if(i)i.value=link;
+  const pv=$('#avImg');if(pv){pv.src=link}
+  avSay('上传成功 ✓ '+note+'。点「保存头像」生效','ok');
+}
+function renderAvSrc(){
+  const c=S.cr,box=$('#avBox');if(!box)return;
+  $$('#avMode button').forEach(b=>b.classList.toggle('on',b.dataset.m===c.avMode));
+  if(c.avMode==='champ'){box.innerHTML=`<div class="note">使用上方所选的英雄立绘（可用 ‹ › 或「选择立绘」更换）。想用自己的图，切到「本地上传」或「填写外链」。</div>`}
+  else{
+    box.innerHTML=(c.avMode==='up'?`<label class="avdrop" id="avDrop"><b>＋</b>点击选择 / 拖入本地图片<small>自动裁成正方形并上传到公开图床，得到链接</small><input type="file" id="avFile" accept="image/*" hidden></label>`:'')
+     +`<div class="avmsg" id="avMsg">${esc(c.avMsg||'')}</div>
+      <input class="inp" id="avLink" placeholder="${c.avMode==='up'?'上传成功后链接会自动填在这里':'粘贴公开图片链接 https://…'}" value="${esc(c.avDraft||'')}">
+      <div class="btnrow"><button class="btn sm gold" id="avSave">保存头像</button><button class="btn sm" id="avClear">恢复立绘</button>${c.avUrl?'<button class="btn sm" id="avCp">复制「换头像」指令</button>':''}</div>`;
+    const dz=$('#avDrop'),fi=$('#avFile');
+    if(dz){fi.onchange=e=>avUpload(e.target.files[0]);
+      ['dragover','dragenter'].forEach(t=>dz.addEventListener(t,e=>{e.preventDefault();dz.classList.add('on')}));
+      ['dragleave','drop'].forEach(t=>dz.addEventListener(t,e=>{e.preventDefault();dz.classList.remove('on')}));
+      dz.addEventListener('drop',e=>avUpload(e.dataTransfer.files[0]))}
+    $('#avLink').oninput=e=>{c.avDraft=e.target.value.trim()};
+    $('#avSave').onclick=()=>{const u=($('#avLink').value||'').trim();
+      if(!/^https?:\/\//.test(u))return avSay(c.avMode==='up'?'先上传图片，或在下方粘贴 https:// 开头的链接':'请粘贴 https:// 开头的图片链接','er');
+      const t=new Image();t.onload=()=>{c.avUrl=c.avDraft=u;try{localStorage.setItem('lol-cr-avatar',JSON.stringify({url:u,mode:c.avMode}))}catch(e){}
+        c.avMsg='已保存 ✓ 头像已更换';renderAvatar();refreshCreate();toast('头像已保存');};
+      t.onerror=()=>avSay('这个链接打不开图片，请检查（需要是公开的图片直链）','er');t.src=u};
+    $('#avClear').onclick=()=>{c.avUrl=c.avDraft=c.avMsg='';c.avMode='champ';try{localStorage.removeItem('lol-cr-avatar')}catch(e){}renderAvatar();refreshCreate()};
+    const cp=$('#avCp');if(cp)cp.onclick=()=>avCopy(avCmd());
+  }
 }
 function stepChamp(d){const i=S.list.findIndex(c=>c.id===S.cr.champ);S.cr.champ=S.list[(i+d+S.list.length)%S.list.length].id;S.cr.skin=0;renderAvatar();refreshCreate()}
 function openChampPicker(){
@@ -1049,12 +1111,12 @@ function cardText(){
   const c=S.cr,a=crAttrs(),ch=S.CH[c.champ];
   const tal=c.picked.map(i=>c.rolled[i]).map(t=>`【${QUAL[t[0]].n}】${t[1]}：${t[2]}`).join('\n');
   const items=c.items.map(id=>(S.items||[]).find(i=>i.id===id)?.name||('装备#'+id)).join('、');
-  return `【英雄联盟 · 角色卡】\n姓名：${c.name}\n性别：${c.gender}\n年龄：${c.age}\n种族：${RACES[c.race].n}（${RACES[c.race].en}）\n核心性格：${[...c.traits,c.trait2.trim()].filter(Boolean).join('、')}\n出生地：${c.region?RMAP[c.region].n:'—'}\n时代：${c.era||'—'}\n背景出身：${c.origin||'—'}\n特殊设定：${c.special||'—'}${items?'\n装备道具：'+items:''}\n天赋：\n${tal}\n属性：${ATTRS.map(k=>k+a[k]).join(' ')}\n立绘：${ch?.name||c.champ}`;
+  return `【英雄联盟 · 角色卡】\n姓名：${c.name}\n性别：${c.gender}\n年龄：${c.age}\n种族：${RACES[c.race].n}（${RACES[c.race].en}）\n核心性格：${[...c.traits,c.trait2.trim()].filter(Boolean).join('、')}\n出生地：${c.region?RMAP[c.region].n:'—'}\n时代：${c.era||'—'}\n背景出身：${c.origin||'—'}\n特殊设定：${c.special||'—'}${items?'\n装备道具：'+items:''}\n天赋：\n${tal}\n属性：${ATTRS.map(k=>k+a[k]).join(' ')}\n立绘：${ch?.name||c.champ}${c.avUrl?'\n头像链接：'+c.avUrl+'\n'+avCmd():''}`;
 }
 function showCard(){
   const c=S.cr,a=crAttrs(),ch=S.CH[c.champ];
   openModal(`<div class="mhead"><h3 class="gold-text">角色创建完成</h3></div>
-   <div class="cardsheet"><div><div class="portrait" style="background-image:url(${IMG.splash(c.champ,c.skin)})"></div><div class="note" style="text-align:center">立绘：${esc(ch?.name||'')}</div></div>
+   <div class="cardsheet"><div><div class="portrait" style="background-image:url(${c.avUrl?esc(c.avUrl):IMG.splash(c.champ,c.skin)})"></div><div class="note" style="text-align:center">${c.avUrl?'头像：自定义':'立绘：'+esc(ch?.name||'')}</div></div>
    <div><dl><dt>姓名</dt><dd>${esc(c.name)}</dd><dt>性别 / 年龄</dt><dd>${esc(c.gender)} / ${esc(c.age)}</dd><dt>种族</dt><dd>${RACES[c.race].n}（${RACES[c.race].en}）</dd>
    <dt>核心性格</dt><dd>${esc([...c.traits,c.trait2.trim()].filter(Boolean).join('、'))}</dd><dt>出生地 / 时代</dt><dd>${c.region?RMAP[c.region].n:'—'} · ${esc(c.era||'—')}</dd>
    <dt>背景出身</dt><dd>${esc(c.origin||'—')}</dd><dt>特殊设定</dt><dd>${esc(c.special||'—')}</dd>
