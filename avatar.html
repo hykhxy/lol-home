@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>头像工坊 · 符文之地</title>
+<style>
+:root{--g1:#f0e6d2;--g2:#c8aa6e;--g3:#a09b8c;--g4:#785a28;--cy:#0ac8b9;--bg:#010a13}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--g1);font:14px/1.7 "Noto Serif SC","Source Han Serif SC","Microsoft YaHei",serif}
+body{background:radial-gradient(ellipse 70% 40% at 50% 0,rgba(10,200,185,.18),transparent 70%),linear-gradient(180deg,#07121f,#010a13) fixed;padding:14px 14px 60px}
+.w{max-width:640px;margin:0 auto}
+h1{margin:6px 0 2px;font-size:22px;letter-spacing:.3em;color:var(--g1);text-shadow:0 0 14px rgba(10,200,185,.6)}
+.sub{color:var(--g3);font-size:12px;letter-spacing:.2em;margin-bottom:14px}
+.card{position:relative;margin:12px 0;padding:14px;background:linear-gradient(160deg,rgba(14,32,54,.96),rgba(5,14,26,.96));border:1px solid rgba(200,170,110,.45);box-shadow:0 0 24px rgba(0,0,0,.5)}
+.card::before{content:"";position:absolute;left:-1px;top:-1px;width:16px;height:16px;border-left:2px solid var(--g2);border-top:2px solid var(--g2)}
+.card h2{margin:0 0 8px;font-size:14px;letter-spacing:.3em;color:var(--g2)}
+.card h2 em{font-style:normal;display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;margin-right:8px;color:#06101b;background:var(--g2);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+label.f{display:block;margin:8px 0 3px;font-size:12px;letter-spacing:.2em;color:var(--cy)}
+input[type=text]{width:100%;padding:9px 11px;color:var(--g1);background:#06101b;border:1px solid rgba(200,170,110,.5);font:inherit;outline:0}
+input[type=text]:focus{border-color:var(--cy);box-shadow:0 0 12px rgba(10,200,185,.4)}
+.drop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:110px;margin-top:8px;border:2px dashed rgba(200,170,110,.6);color:var(--g2);cursor:pointer;text-align:center;transition:.2s}
+.drop:hover,.drop.on{border-color:var(--cy);color:#fff;background:rgba(10,200,185,.08)}
+.drop b{font-size:26px}
+.btn{display:inline-block;margin:8px 8px 0 0;padding:8px 18px;cursor:pointer;border:0;font:inherit;font-weight:700;letter-spacing:.2em;color:#06101b;background:linear-gradient(135deg,#f0e6d2,#c8aa6e 55%,#785a28);clip-path:polygon(8px 0,calc(100% - 8px) 0,100% 8px,100% calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,0 calc(100% - 8px),0 8px)}
+.btn:hover{filter:brightness(1.12)}
+.btn.c{background:linear-gradient(135deg,#d6fffb,#0ac8b9 55%,#0397ab)}
+.btn.g{color:var(--g2);background:#0a1a2e;box-shadow:inset 0 0 0 1px rgba(200,170,110,.6)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.pv{display:flex;gap:14px;align-items:flex-start;margin-top:10px}
+.av{position:relative;flex:none;width:76px;height:86px;background:linear-gradient(160deg,#f0e6d2,#c8aa6e 42%,#785a28);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+.av::before{content:"";position:absolute;inset:3px;background:#0a1a2e;clip-path:inherit}
+.av img{position:absolute;inset:3px;width:calc(100% - 6px);height:calc(100% - 6px);object-fit:cover;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+.bub{flex:1;padding:9px 14px;background:linear-gradient(160deg,#0f2640,#08162a);border:1px solid rgba(200,170,110,.55);border-radius:3px 14px 14px 14px}
+.bub small{display:block;color:var(--g2);letter-spacing:.1em}
+.out{margin-top:8px;padding:9px 11px;word-break:break-all;color:#aaf3ec;background:#030a12;border:1px dashed rgba(10,200,185,.6);user-select:all;-webkit-user-select:all;font:12.5px/1.6 Consolas,monospace}
+.msg{min-height:20px;margin-top:6px;font-size:12.5px;color:var(--g3)}
+.msg.ok{color:#4be28e}.msg.er{color:#ff7a7e}
+.li{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed rgba(200,170,110,.25)}
+.li .av{width:40px;height:46px}.li .av::before{inset:2px}.li .av img{inset:2px;width:calc(100% - 4px);height:calc(100% - 4px)}
+.li div.t{flex:1;min-width:0}.li b{display:block}.li small{display:block;color:var(--g3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ol{margin:4px 0;padding-left:20px}ol li{margin:3px 0}
+.hint{font-size:12.5px;color:var(--g3)}
+</style></head><body><div class="w">
+<h1>头像工坊</h1><div class="sub">AVATAR FORGE · 上传本地图片 → 得到公开链接 → 点「保存」→ 发给 AI 换头像</div>
+
+<div class="card"><h2><em>1</em>选择角色</h2>
+<label class="f">要换头像的角色名(英雄官方中文名,或你的角色名)</label>
+<input id="name" type="text" list="nl" placeholder="例如:盖伦 / 拉克丝 / 旅人" autocomplete="off">
+<datalist id="nl"></datalist>
+<div class="pv"><div class="av"><img id="pimg" alt=""></div><div class="bub"><small id="pn">角色名</small><span>头像预览——聊天里的气泡、状态栏和 NPC 卡都会用它。</span></div></div>
+</div>
+
+<div class="card"><h2><em>2</em>上传本地图片</h2>
+<div class="drop" id="drop"><b>＋</b><span>点击选择图片 / 拖入图片 / 粘贴图片(Ctrl+V)</span><small class="hint">自动裁成正方形并压缩到 512px,再上传到公开图床</small></div>
+<input id="file" type="file" accept="image/*" hidden>
+<div class="msg" id="msg"></div>
+<label class="f">头像链接(上传成功后自动填入,也可以直接粘贴任意公开图片链接 https://…)</label>
+<input id="url" type="text" placeholder="https://i.imgur.com/xxxx.png" autocomplete="off">
+</div>
+
+<div class="card"><h2><em>3</em>保存并换头像</h2>
+<button class="btn" id="save">保存</button><button class="btn c" id="copy">复制「换头像」指令</button>
+<div class="out" id="cmd">【换头像|名字|链接】</div>
+<div class="msg" id="msg2"></div>
+<ol class="hint"><li>点「保存」:头像记入下方「已保存」列表(存在本浏览器),并自动复制指令。</li>
+<li>回到聊天,粘贴指令并发送。AI 会把头像登记进状态栏的记忆里,之后这个角色的气泡、立绘卡都用它,别人看这段聊天时也能看到(链接是公开的)。</li>
+<li>想一次换好几个:在「已保存」里点「复制全部指令」,一起发给 AI。</li></ol>
+</div>
+
+<div class="card"><h2><em>★</em>已保存的头像</h2><div id="list"></div>
+<button class="btn g" id="all">复制全部指令</button><button class="btn g" id="clr">清空列表</button></div>
+</div>
+<script>
+const $=id=>document.getElementById(id),KEY='lol-avatars-v1';
+let blob=null;
+const V='16.21.1';
+function load(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return[]}}
+function store(a){try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){}}
+function cmd(n,u){return '【换头像|'+n+'|'+u+'】'}
+function say(el,t,c){el.textContent=t;el.className='msg'+(c?' '+c:'')}
+function refresh(){
+  const n=$('name').value.trim(),u=$('url').value.trim();
+  $('pn').textContent=n||'角色名';
+  $('pimg').src=u||(window.ID&&window.ID[n]?`https://ddragon.leagueoflegends.com/cdn/${V}/img/champion/${window.ID[n]}.png`:'');
+  $('pimg').style.display=$('pimg').src?'block':'none';
+  $('cmd').textContent=cmd(n||'名字',u||'链接');
+}
+function render(){
+  const a=load(),L=$('list');L.innerHTML='';
+  if(!a.length){L.innerHTML='<div class="hint">还没有保存过头像。</div>';return}
+  a.forEach((x,i)=>{
+    const d=document.createElement('div');d.className='li';
+    d.innerHTML='<div class="av"><img></div><div class="t"><b></b><small></small></div>';
+    d.querySelector('img').src=x.url;d.querySelector('b').textContent=x.name;d.querySelector('small').textContent=x.url;
+    const c=document.createElement('button');c.className='btn c';c.textContent='复制';c.onclick=()=>copyT(cmd(x.name,x.url),$('msg2'));
+    const e=document.createElement('button');e.className='btn g';e.textContent='编辑';e.onclick=()=>{$('name').value=x.name;$('url').value=x.url;refresh();scrollTo(0,0)};
+    const r=document.createElement('button');r.className='btn g';r.textContent='删除';r.onclick=()=>{const b=load();b.splice(i,1);store(b);render()};
+    d.append(c,e,r);L.append(d);
+  });
+}
+function copyT(t,el){
+  const ok=()=>say(el,'已复制到剪贴板,回聊天粘贴发送即可 ✓','ok');
+  const fb=()=>{const s=document.createElement('textarea');s.value=t;document.body.append(s);s.select();try{document.execCommand('copy');ok()}catch(e){say(el,'请长按上面的指令手动复制','er')}s.remove()};
+  try{navigator.clipboard.writeText(t).then(ok,fb)}catch(e){fb()}
+}
+// 图片 → 方形 512 压缩
+function squash(file){return new Promise((res,rej)=>{
+  const im=new Image(),u=URL.createObjectURL(file);
+  im.onload=()=>{const s=Math.min(im.width,im.height),S=Math.min(512,s),c=document.createElement('canvas');c.width=c.height=S;
+    c.getContext('2d').drawImage(im,(im.width-s)/2,(im.height-s)/2*0.6,s,s,0,0,S,S);URL.revokeObjectURL(u);
+    c.toBlob(b=>b?res(b):rej(new Error('压缩失败')),'image/png')};
+  im.onerror=()=>rej(new Error('读不了这张图片'));im.src=u})}
+async function imgur(b){const f=new FormData();f.append('image',b);
+  const r=await fetch('https://api.imgur.com/3/image',{method:'POST',headers:{Authorization:'Client-ID 546c25a59c58ad7'},body:f});
+  const j=await r.json();if(!j.success)throw new Error('imgur 失败');return j.data.link}
+async function litter(b){const f=new FormData();f.append('reqtype','fileupload');f.append('time','72h');f.append('fileToUpload',b,'a.png');
+  const r=await fetch('https://litterbox.catbox.moe/resources/internals/api.php',{method:'POST',body:f});
+  const t=(await r.text()).trim();if(!/^https:/.test(t))throw new Error('litterbox 失败');return t}
+async function go(file){
+  if(!file||!/^image\//.test(file.type)){say($('msg'),'请选择图片文件','er');return}
+  say($('msg'),'压缩中…');
+  try{blob=await squash(file)}catch(e){say($('msg'),e.message,'er');return}
+  say($('msg'),'上传到公开图床中…(可能要几秒)');
+  let link='',note='';
+  try{link=await imgur(blob);note='已上传到 imgur(永久链接)'}catch(e1){
+    try{link=await litter(blob);note='imgur 不可用,已上传到 litterbox(链接 72 小时有效,到期请重传)'}catch(e2){}}
+  if(!link){say($('msg'),'两个图床都连不上。请换个网络重试,或把图片传到你自己的图床后把链接粘贴到下面。','er');return}
+  $('url').value=link;refresh();say($('msg'),'成功 ✓ '+note,'ok');
+}
+$('drop').onclick=()=>$('file').click();
+$('file').onchange=e=>go(e.target.files[0]);
+['dragover','dragenter'].forEach(t=>$('drop').addEventListener(t,e=>{e.preventDefault();$('drop').classList.add('on')}));
+['dragleave','drop'].forEach(t=>$('drop').addEventListener(t,e=>{e.preventDefault();$('drop').classList.remove('on')}));
+$('drop').addEventListener('drop',e=>go(e.dataTransfer.files[0]));
+document.addEventListener('paste',e=>{const f=[...(e.clipboardData||{}).files||[]].find(x=>/^image\//.test(x.type));if(f)go(f)});
+$('name').oninput=$('url').oninput=refresh;
+$('save').onclick=()=>{
+  const n=$('name').value.trim().replace(/[|【】〔〕\s]/g,''),u=$('url').value.trim();
+  if(!n){say($('msg2'),'先填角色名','er');return}
+  if(!/^https?:\/\//.test(u)){say($('msg2'),'先上传图片,或粘贴一个 https:// 开头的图片链接','er');return}
+  const a=load().filter(x=>x.name!==n);a.unshift({name:n,url:u});store(a);render();
+  copyT(cmd(n,u),$('msg2'));
+};
+$('copy').onclick=()=>{const n=$('name').value.trim(),u=$('url').value.trim();if(!n||!u){say($('msg2'),'角色名和链接都要有','er');return}copyT(cmd(n,u),$('msg2'))};
+$('all').onclick=()=>{const a=load();if(!a.length)return;copyT(a.map(x=>cmd(x.name,x.url)).join('\n'),$('msg2'))};
+$('clr').onclick=()=>{if(confirm('清空已保存列表?(不影响聊天里已登记的头像)')){store([]);render()}};
+// 英雄名候选
+fetch(`https://ddragon.leagueoflegends.com/cdn/${V}/data/zh_CN/champion.json`).then(r=>r.json()).then(j=>{
+  window.ID={};const dl=$('nl');
+  Object.values(j.data).forEach(c=>{window.ID[c.title]=c.id;const o=document.createElement('option');o.value=c.title;o.label=c.name;dl.append(o)});refresh();
+}).catch(()=>{});
+render();refresh();
+</script></body></html>
